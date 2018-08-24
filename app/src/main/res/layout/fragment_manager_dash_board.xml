@@ -1,0 +1,1910 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="in.co.cfcs.ehrmsone.Manager.ManagerActivity.ManagerDasboardTest">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+            <!-- app:cardBackgroundColor="#D1C4E9"-->
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight=".5"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Request to Approve"
+                            android:textSize="8sp"
+                            android:textStyle="bold|italic"
+                            android:textColor="@color/purple700"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="#e0e0e0" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.5"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <LinearLayout
+                                android:id="@+id/manag_leave"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2.5"
+                                    android:orientation="vertical">
+
+
+                                    <RelativeLayout
+
+                                        android:id="@+id/badge_layout1"
+
+                                        android:layout_width="wrap_content"
+
+                                        android:layout_height="wrap_content">
+
+                                        <RelativeLayout
+
+                                            android:id="@+id/relative_layout"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <ImageView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_gravity="center"
+                                                app:srcCompat="@drawable/ic_mgrleavereq" />
+
+                                        </RelativeLayout>
+
+                                        <TextView
+
+                                            android:id="@+id/leave_noti"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content"
+
+                                            android:layout_alignRight="@id/relative_layout"
+
+                                            android:background="@drawable/item_count"
+
+                                            android:textColor="#FFF"
+
+                                            android:textSize="10sp"
+
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="7.5"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Leave"
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#e0e0e0" />
+
+                            <LinearLayout
+                                android:id="@+id/manag_short_leave"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2.5"
+                                    android:orientation="vertical">
+
+
+                                    <RelativeLayout
+
+                                        android:layout_width="wrap_content"
+
+                                        android:layout_height="wrap_content">
+
+                                        <RelativeLayout
+
+                                            android:id="@+id/relative_layout2"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <ImageView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_gravity="center"
+                                                app:srcCompat="@drawable/mgrshort" />
+
+                                        </RelativeLayout>
+
+                                        <TextView
+
+                                            android:id="@+id/short_leave_noti"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content"
+
+                                            android:layout_alignRight="@id/relative_layout2"
+
+                                            android:background="@drawable/item_count"
+
+                                            android:textColor="#FFF"
+
+                                            android:textSize="10sp"
+
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="7.5"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Short Leave"
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#e0e0e0" />
+                            <LinearLayout
+                                android:id="@+id/manag_attendance_request"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2.5"
+                                    android:orientation="vertical">
+
+
+                                    <RelativeLayout
+
+                                        android:layout_width="wrap_content"
+
+                                        android:layout_height="wrap_content">
+
+                                        <RelativeLayout
+
+                                            android:id="@+id/relative_layout5"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <ImageView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_gravity="center"
+                                                app:srcCompat="@drawable/ic_attendance" />
+
+                                        </RelativeLayout>
+
+                                        <TextView
+
+                                            android:id="@+id/attendance_request_noti"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content"
+
+                                            android:layout_alignRight="@id/relative_layout5"
+
+                                            android:background="@drawable/item_count"
+
+                                            android:textColor="#FFF"
+
+                                            android:textSize="10sp"
+
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="7.5"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Attendance Request"
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="#e0e0e0" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.5"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+
+                            <LinearLayout
+                                android:id="@+id/manag_leave_cancel"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2.5"
+                                    android:orientation="vertical">
+
+
+
+                                    <RelativeLayout
+
+                                        android:layout_width="wrap_content"
+
+                                        android:layout_height="wrap_content">
+
+                                        <RelativeLayout
+
+                                            android:id="@+id/relative_layout1"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <ImageView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_gravity="center"
+                                                app:srcCompat="@drawable/ic_mgrcleave" />
+
+                                        </RelativeLayout>
+
+                                        <TextView
+
+                                            android:id="@+id/leave_cancel_noti"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content"
+
+                                            android:layout_alignRight="@id/relative_layout1"
+
+                                            android:background="@drawable/item_count"
+
+                                            android:textColor="#FFF"
+
+                                            android:textSize="10sp"
+
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="7.5"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:maxLines="1"
+                                        android:text="Leave Cancellation"
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#e0e0e0" />
+
+                            <LinearLayout
+                                android:id="@+id/manag_short_leave_cancel"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2.5"
+                                    android:orientation="vertical">
+
+
+
+                                    <RelativeLayout
+
+                                        android:layout_width="wrap_content"
+
+                                        android:layout_height="wrap_content">
+
+                                        <RelativeLayout
+
+                                            android:id="@+id/relative_layout3"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <ImageView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/mgrscan" />
+
+                                        </RelativeLayout>
+
+                                        <TextView
+
+                                            android:id="@+id/short_leave_cancel_noti"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content"
+
+                                            android:layout_alignRight="@id/relative_layout3"
+
+                                            android:background="@drawable/item_count"
+
+                                            android:textColor="#FFF"
+
+                                            android:textSize="10sp"
+
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="7.5"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Short Leave Cancellation"
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#e0e0e0" />
+
+                            <LinearLayout
+                                android:id="@+id/manag_traning_request"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:clickable="true"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2.5"
+                                    android:orientation="vertical">
+
+
+
+                                    <RelativeLayout
+
+                                        android:layout_width="wrap_content"
+
+                                        android:layout_height="wrap_content">
+
+                                        <RelativeLayout
+
+                                            android:id="@+id/relative_layout4"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <ImageView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/mgrtran" />
+
+                                        </RelativeLayout>
+
+                                        <TextView
+
+                                            android:id="@+id/traning_request_noti"
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content"
+
+                                            android:layout_alignRight="@id/relative_layout4"
+
+                                            android:background="@drawable/item_count"
+
+                                            android:textColor="#FFF"
+
+                                            android:textSize="10sp"
+
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="7.5"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="Traning Request"
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <!--app:cardBackgroundColor="#90CAF9"-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.3">
+            <!-- app:cardBackgroundColor="#D1C4E9"-->
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp"
+                android:layout_gravity="center">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Proceeded request"
+                            android:textSize="8sp"
+                            android:textStyle="bold|italic"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/purple700"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="#e0e0e0"
+                            android:layout_marginBottom="0dp"/>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:clickable="true"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="0dp">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_marginBottom="0dp"
+                                android:layout_weight="1"
+                                android:padding="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_proceed_leave_request">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <RelativeLayout
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <RelativeLayout
+
+                                                android:id="@+id/relative_layout6"
+
+                                                android:layout_width="wrap_content"
+
+                                                android:layout_height="wrap_content">
+
+                                                <ImageView
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_gravity="center"
+                                                    app:srcCompat="@drawable/ic_mgrleavereq"
+                                                    android:padding="3dp"/>
+
+                                            </RelativeLayout>
+
+                                            <TextView
+
+                                                android:id="@+id/proceed_leave_noti"
+
+                                                android:layout_width="wrap_content"
+
+                                                android:layout_height="wrap_content"
+
+                                                android:layout_alignRight="@id/relative_layout6"
+
+                                                android:background="@drawable/item_count"
+
+                                                android:textColor="#FFF"
+
+                                                android:textSize="10sp"
+
+                                                android:textStyle="bold" />
+
+                                        </RelativeLayout>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Proceed Leave Request"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:textSize="8sp"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#e0e0e0"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_proceed_short_leave_request">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <RelativeLayout
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <RelativeLayout
+
+                                                android:id="@+id/relative_layout7"
+
+                                                android:layout_width="wrap_content"
+
+                                                android:layout_height="wrap_content">
+
+                                                <ImageView
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_gravity="center"
+                                                    app:srcCompat="@drawable/mgrshort"
+                                                    android:padding="3dp"/>
+
+                                            </RelativeLayout>
+
+                                            <TextView
+
+                                                android:id="@+id/proceed_short_noti"
+
+                                                android:layout_width="wrap_content"
+
+                                                android:layout_height="wrap_content"
+
+                                                android:layout_alignRight="@id/relative_layout7"
+
+                                                android:background="@drawable/item_count"
+
+                                                android:textColor="#FFF"
+
+                                                android:textSize="10sp"
+
+                                                android:textStyle="bold" />
+
+                                        </RelativeLayout>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Proceed Short Leave Request"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:textSize="8sp"
+                                            android:maxLines="1"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+                                <View
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#e0e0e0"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_proceed_traning_request">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+
+                                        <RelativeLayout
+
+                                            android:layout_width="wrap_content"
+
+                                            android:layout_height="wrap_content">
+
+                                            <RelativeLayout
+
+                                                android:id="@+id/relative_layout8"
+
+                                                android:layout_width="wrap_content"
+
+                                                android:layout_height="wrap_content">
+
+                                                <ImageView
+                                                    android:layout_gravity="center"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    app:srcCompat="@drawable/mgrtran"
+                                                    android:padding="3dp"/>
+
+                                            </RelativeLayout>
+
+                                            <TextView
+
+                                                android:id="@+id/proceed_traning_request_noti"
+
+                                                android:layout_width="wrap_content"
+
+                                                android:layout_height="wrap_content"
+
+                                                android:layout_alignRight="@id/relative_layout8"
+
+                                                android:background="@drawable/item_count"
+
+
+                                                android:textColor="#FFF"
+
+                                                android:textSize="10sp"
+
+                                                android:textStyle="bold" />
+
+                                        </RelativeLayout>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+                                        <TextView
+                                            android:textSize="8sp"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:gravity="center"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Traning Request"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+
+
+                                </LinearLayout>
+
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <!--app:cardBackgroundColor="#90CAF9"-->
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.3">
+            <!-- app:cardBackgroundColor="#D1C4E9"-->
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp"
+                android:layout_gravity="center">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Leave Management"
+                            android:textSize="8sp"
+                            android:textStyle="bold|italic"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/purple700"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="#e0e0e0"
+                            android:layout_marginBottom="0dp"/>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:clickable="true"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="0dp">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_marginBottom="0dp"
+                                android:layout_weight="1"
+                                android:padding="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_team_summary">
+
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <ImageView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/mgrteamsu"
+                                            android:padding="3dp"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Team Leave Summary"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:textSize="8sp"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#e0e0e0"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_team_week_off">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <ImageView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            app:srcCompat="@drawable/mgrweak"
+                                            android:padding="3dp"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Team Weak Off"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:textSize="8sp"
+                                            android:maxLines="1"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+                                <View
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#e0e0e0"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_team_leave_history">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <ImageView
+                                            android:layout_gravity="center"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            app:srcCompat="@drawable/ic_mgrhistory"
+                                            android:padding="3dp"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+                                        <TextView
+                                            android:textSize="8sp"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:gravity="center"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Team Leave History"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+
+
+                                </LinearLayout>
+                                <View
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#e0e0e0"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_team_short_leave_history">
+
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <ImageView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            app:srcCompat="@drawable/mgrteaml"
+                                            android:padding="3dp"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Team Short Leave History"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:textSize="8sp"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <!--app:cardBackgroundColor="#90CAF9"-->
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.3">
+            <!-- app:cardBackgroundColor="#D1C4E9"-->
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp"
+                android:layout_gravity="center">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Report"
+                            android:textSize="8sp"
+                            android:textStyle="bold|italic"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/purple700"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="#e0e0e0"
+                            android:layout_marginBottom="0dp"/>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:clickable="true"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="0dp">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:layout_marginBottom="0dp"
+                                android:layout_weight="1">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_attendance_report">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <ImageView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            app:srcCompat="@drawable/ic_teamreport"
+                                            android:padding="3dp"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Attendance Report"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:textSize="8sp"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#e0e0e0"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_aatendance_log_report">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <ImageView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            app:srcCompat="@drawable/ic_log"
+                                            android:padding="3dp"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Attendance Log Report"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:textSize="8sp"
+                                            android:maxLines="1"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+                                <View
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#e0e0e0"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_team_average_report">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <ImageView
+                                            android:layout_gravity="center"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            app:srcCompat="@drawable/mgrteam"
+                                            android:padding="3dp"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+                                        <TextView
+                                            android:textSize="8sp"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:gravity="center"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Team Avg. Report"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+
+
+                                </LinearLayout>
+                                <View
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#e0e0e0"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:orientation="vertical"
+                                    android:id="@+id/manag_asset_detail">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="2.5">
+
+                                        <ImageView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_gravity="center"
+                                            app:srcCompat="@drawable/ic_mgrass"
+                                            android:padding="3dp"/>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:layout_weight="7.5">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Asset Details"
+                                            android:textColor="@color/dahboard_textcolor"
+                                            android:textSize="8sp"
+                                            android:textStyle="bold"/>
+
+                                    </LinearLayout>
+
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <!--app:cardBackgroundColor="#90CAF9"-->
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+            <!-- app:cardBackgroundColor="#D1C4E9"-->
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp"
+                android:layout_gravity="center">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Employee Data"
+                            android:textSize="8sp"
+                            android:textStyle="bold|italic"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/purple700"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="#e0e0e0"
+                            android:layout_marginBottom="0dp"/>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:clickable="true"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:layout_weight="1.5">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:id="@+id/manag_team_profile"
+                                android:clickable="true">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="2.5">
+
+                                    <ImageView
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        app:srcCompat="@drawable/ic_mgrprs"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="7.5">
+
+                                    <TextView
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Team Profile"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                            <View
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#e0e0e0"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:id="@+id/manag_administrative"
+                                android:clickable="true">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="2.5">
+
+                                    <ImageView
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        app:srcCompat="@drawable/ic_mgrdoc"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="7.5">
+
+                                    <TextView
+                                        android:gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Administrative Information"
+                                        android:maxLines="1"
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold"/>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#e0e0e0"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:id="@+id/manag_medical_insurance">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="2.5">
+
+                                    <ImageView
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        app:srcCompat="@drawable/ic_mgrhlt"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="7.5">
+
+                                    <TextView
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold"
+                                        android:gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Medical / Insurance" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="#e0e0e0"
+                            android:layout_marginBottom="0dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="5dp"
+                            android:orientation="horizontal"
+                            android:layout_weight="1.5">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:id="@+id/manag_address"
+                                android:clickable="true">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="2.5">
+
+                                    <ImageView
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        app:srcCompat="@drawable/ic_mgradd"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="7.5">
+
+                                    <TextView
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold"
+                                        android:gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Address"/>
+
+                                </LinearLayout>
+
+
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#e0e0e0"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:id="@+id/manag_emergency_address"
+                                android:clickable="true">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="2.5">
+
+                                    <ImageView
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/ic_mgremg"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="7.5">
+
+                                    <TextView
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold"
+                                        android:gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Emergency Address"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#e0e0e0"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:id="@+id/manag_skill_career"
+                                android:clickable="true">
+
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="2.5">
+
+                                    <ImageView
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        app:srcCompat="@drawable/ic_care"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_weight="7.5">
+
+                                    <TextView
+                                        android:textColor="@color/dahboard_textcolor"
+                                        android:textSize="8sp"
+                                        android:textStyle="bold"
+                                        android:gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Skill And Career"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <!--app:cardBackgroundColor="#90CAF9"-->
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

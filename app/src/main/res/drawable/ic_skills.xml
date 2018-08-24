@@ -1,0 +1,10 @@
+<vector android:height="24dp" android:viewportHeight="1060"
+    android:viewportWidth="1075" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#113fa9" android:name="Shape 1" android:pathData="m121 76 6 98 77 176h18l-72 -173l44 -22l85 198l16 -1l-87 -206l-27 -25l-9 10c0 0 11.2 21.4 -11 26c0 0 -10.9 3.2 -18 -7c-3.9 -5.6 -6.9 -15.5 2 -25c0 0 17.1 -12.5 27 6l9 -10l-60 -45z"/>
+    <path android:fillColor="#113fa9" android:name="Shape 2" android:pathData="m297 77h74v75l-15 -14v-45h-44v45h44l15 14h-30v78c0 0 7 24.2 29 27h154c0 0 44.5 -0.8 56 44v51h-12v-47c0 0 -8.4 -33.8 -45 -36h-153c0 0 -35.3 0.2 -41 -42v-76h-32v-74z"/>
+    <path android:fillColor="#113fa9" android:name="Shape 3" android:pathData="m421 142 128 -55 29 124 -31 -10 -68 152 -19 -1 75 -172 18 3 -15 -70 -73 30 16 13 -93 194 -20 2 85 -191 -32 -19z"/>
+    <path android:fillColor="#113fa9" android:name="Shape 4" android:pathData="m656 351 1 -36c0 0 -61.8 -32.5 -60 -117c0 0 -1.8 -61.5 50 -99c0 0 74.2 -53 150 -2c0 0 49.7 32.5 56 97c0 0 7.7 71 -63 120v38h-14v-48c0 0 61.7 -37 61 -99c0 0 -0.3 -56 -44 -90c0 0 -48.8 -39 -105 -18c0 0 -35.3 7 -62 50c0 0 -27.8 49.5 -8 95c0 0 18.2 45 55 67l-1 41l-16 1z"/>
+    <path android:fillColor="#113fa9" android:name="Shape 5" android:pathData="m715 349v-104c0 0 -36 -9.4 -32 -45c0 0 5 -30.7 35 -35c0 0 28.8 -3.2 41 20c-0.1 0.2 11.2 24 -2 41c0 -0 -14 -9 -14 -9c0 0 9.8 -17.8 -6 -32c0 0 -17.2 -13.1 -34 5c0 0 -10.5 18.5 2 31c0 0 20.9 18.6 38 -4l14 9c0 0 -13.8 19.8 -28 19v104h-14z"/>
+    <path android:fillColor="#113fa9" android:name="Rectangle 1" android:pathData="m169 348h660v13h-660v-13z"/>
+    <path android:fillColor="#113fa9" android:name="Shape 6" android:pathData="m159 504c0 0 12.5 123.2 77 199c0 0 50.5 60.2 90 86l1 207l347 -1l1 -138l148 1l1 -189l109 -27l-99 -172c0 0 7.5 -77.8 -4 -120l-16 -1c0 0 12.5 76.2 -1 127l90 154l-97 26l-1 183l-149 1l-1 133l-310 2v-196c0 0 -130.5 -92.8 -152 -202c0 0 -36 -115.8 -9 -216l-14 -12c0 0 -10.4 32.7 -13 70c-2.8 40.1 2 85 2 85z"/>
+</vector>

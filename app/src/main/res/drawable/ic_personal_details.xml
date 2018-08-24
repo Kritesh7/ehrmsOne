@@ -1,0 +1,19 @@
+<vector android:height="24dp" android:viewportHeight="1069"
+    android:viewportWidth="1132" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#0d47a1" android:name="Rectangle 1" android:pathData="m111 221h922v56h-922v-56z"/>
+    <path android:fillColor="#0d47a1" android:name="Rectangle 2" android:pathData="m109 220h59v708h-59v-708z"/>
+    <path android:fillColor="#0d47a1" android:name="Rectangle 3" android:pathData="m111 881h922v49h-922v-49z"/>
+    <path android:fillColor="#0d47a1" android:name="Rounded Rectangle 1" android:pathData="m578 384 321 -1c13.8 0 25 11.2 25 25c0 13.8 -11.2 25 -25 25l-321 1c-13.8 0 -25 -11.2 -25 -25c0 -13.8 11.2 -25 25 -25z"/>
+    <path android:fillColor="#0d47a1"
+        android:name="Rounded Rectangle 1 copy" android:pathData="m578 494 321 -1c13.8 0 25 11.2 25 25c0 13.8 -11.2 25 -25 25l-321 1c-13.8 0 -25 -11.2 -25 -25c0 -13.8 11.2 -25 25 -25z"/>
+    <path android:fillColor="#0d47a1"
+        android:name="Rounded Rectangle 1 copy 2" android:pathData="m578 606 321 -1c13.8 0 25 11.2 25 25c0 13.8 -11.2 25 -25 25l-321 1c-13.8 0 -25 -11.2 -25 -25c0 -13.8 11.2 -25 25 -25z"/>
+    <path android:fillColor="#0d47a1"
+        android:name="Rounded Rectangle 1 copy 3" android:pathData="m578 716 321 -1c13.8 0 25 11.2 25 25c0 13.8 -11.2 25 -25 25l-321 1c-13.8 0 -25 -11.2 -25 -25c0 -13.8 11.2 -25 25 -25z"/>
+    <path android:fillColor="#0d47a1" android:name="Rectangle 4" android:pathData="m980 223h54v706h-54v-706z"/>
+    <path android:fillColor="#0d47a1" android:name="Shape 1" android:pathData="m304 362c0 0 -57.7 10.2 -77 77c0 0 -8.9 37.7 12 75c0 0 23.1 43.5 75 51c0 0 67.8 11 104 -51c0 0 28.2 -47.1 4 -96c0 0 -18.1 -39.6 -61 -54l-11 58c0 0 29.4 17.4 23 49c0 0 -5.1 28.1 -32 35c0 0 -24.1 8.1 -45 -12c0 0 -19.6 -16.6 -11 -47c0 0 6.9 -21.4 34 -29c0 0 17.9 -3.6 31 4l11 -58c0 0 -26.3 -9.5 -57 -2z"/>
+    <path android:fillColor="#0d47a1" android:name="Rectangle 5" android:pathData="m228 591h195v51h-195v-51z"/>
+    <path android:fillColor="#0d47a1" android:name="Rectangle 5 copy" android:pathData="m228 737h195v51h-195v-51z"/>
+    <path android:fillColor="#0d47a1" android:name="Rectangle 6" android:pathData="m228 591h51v197h-51v-197z"/>
+    <path android:fillColor="#0d47a1" android:name="Rectangle 6 copy" android:pathData="m372 591h51v197h-51v-197z"/>
+</vector>
