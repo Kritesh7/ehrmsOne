@@ -31,6 +31,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -48,6 +49,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -160,6 +162,8 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
     private MapFragment mapFragment;
 
+    LinearLayout mainlay;
+
 //    double lati = 28.49606;
 //    double longit = 77.40185;
 
@@ -264,6 +268,8 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
         rd_in = findViewById(R.id.rd_in);
         rd_out = findViewById(R.id.rd_out);
 
+        mainlay = findViewById(R.id.mainlay);
+
         createchannel();  //needed for the persistent notification created in service.
 
         if (conn.getConnectivityStatus() > 0) {
@@ -308,11 +314,11 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
         // create GoogleApiClient
         createGoogleApi();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String dateforrow = dateFormat.format(c.getTime());
         Date date1 = new Date();
         String stringDate = DateFormat.getDateInstance().format(date1);
-        AttDateTimePresentTime = stringDate + " " + dateforrow;
+        AttDateTimePresentTime = getCurrentTime() + " " + dateforrow;
 
 
         //current Time incresing
@@ -333,20 +339,15 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
         //set current date
         dateTxt.setText(getCurrentTime());
 
-        if (gpsTracker.canGetLocation()) {
-
-            GetLoctionAddress locationAddress = new GetLoctionAddress();
-            locationAddress.getFromLocation(gpsTracker.getLatitude(), gpsTracker.getLongitude(), getApplicationContext(),
-                    new GeocoderHandler());
-
-//            LocationAddress locationAddress = new LocationAddress();
-//            locationAddress.getAddressFromLocation(gpsTracker.getLatitude(), gpsTracker.getLongitude(), AttendanceModule.this,
+//        if (gpsTracker.canGetLocation()) {
+//
+//            GetLoctionAddress locationAddress = new GetLoctionAddress();
+//            locationAddress.getFromLocation(gpsTracker.getLatitude(), gpsTracker.getLongitude(), getApplicationContext(),
 //                    new GeocoderHandler());
-
-
-        } else {
-            gpsTracker.showSettingsAlert();
-        }
+//
+//        } else {
+//            gpsTracker.showSettingsAlert();
+//        }
 
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -478,12 +479,15 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                                 Toast.makeText(AttendanceModule.this, "Please Click the pic properely", Toast.LENGTH_SHORT).show();
                             } else if (addTxt.getText().toString().equalsIgnoreCase("")) {
                                 addTxt.setError("Please get address");
+                               // Toast.makeText(AttendanceModule.this, "Unable To Find Your Location", Toast.LENGTH_SHORT).show();
+                                ScanckBar();
                                 pDialog.dismiss();
                             } else if (finalIsMock) {
                                 Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
                                 pDialog.dismiss();
-                            } else if (gpsTracker.getLongitude() == 0 || gpsTracker.getLongitude() == 0) {
+                            } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
                                 Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
+                                ScanckBar();
                             } else {
                                 if (rd_in.isChecked()) {
 
@@ -491,7 +495,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
                                         TrackService();
 
-                                        attendaceDetails(userId, gpsTracker.getLongitude() + "", gpsTracker.getLatitude() + "", addTxt.getText().toString(),
+                                        attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
                                                 remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimePresentTime, TypeAuto);
                                        // Toast.makeText(AttendanceModule.this, AttDateTimePresentTime, Toast.LENGTH_LONG).show();
                                     } else {
@@ -505,7 +509,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
                                         StopTrackService();
 
-                                        attendaceDetails(userId, gpsTracker.getLongitude() + "", gpsTracker.getLatitude() + "", addTxt.getText().toString(),
+                                        attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
                                                 remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimePresentTime, TypeAuto);
 
                                     } else {
@@ -522,6 +526,27 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
             }
         });
     }
+
+    private void ScanckBar() {
+
+        Snackbar snackbar = Snackbar
+                .make(mainlay, "Unable to Find Your Location", Snackbar.LENGTH_LONG)
+                .setDuration(60000)
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startLocationUpdates();
+                        addTxt.setError(null);
+                    }
+                });
+
+        // Changing message text color
+        snackbar.setActionTextColor(Color.RED);
+
+        snackbar.show();
+
+    }
+
 
 
     Camera.PictureCallback jpegCallback = new Camera.PictureCallback() {
@@ -605,6 +630,9 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                         String aTime = new StringBuilder().append(hour).append(':')
                                 .append(min).append(" ").append(timeSet).toString();
 
+
+
+
                         AttDateTimeMissed = InOutStatusDate + " " + aTime;
 
                         mCamera.takePicture(null, null, jpegCallback);
@@ -626,12 +654,14 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                                     Toast.makeText(AttendanceModule.this, "Please Click the pic properely", Toast.LENGTH_SHORT).show();
                                 } else if (addTxt.getText().toString().equalsIgnoreCase("")) {
                                     addTxt.setError("Please get address");
+                                    ScanckBar();
                                     pDialog.dismiss();
                                 } else if (isMock) {
                                     Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
                                     pDialog.dismiss();
-                                } else if (gpsTracker.getLongitude() == 0 || gpsTracker.getLongitude() == 0) {
+                                } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
                                     Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
+                                    ScanckBar();
                                 } else {
 
                                     if (rd_out.isChecked()) {
@@ -640,7 +670,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
                                             StopTrackService();
 
-                                            attendaceDetails(userId, gpsTracker.getLongitude() + "", gpsTracker.getLatitude() + "", addTxt.getText().toString(),
+                                            attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
                                                     remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimeMissed, TypeManula);
 
                                             rd_out.setVisibility(View.GONE);
@@ -1106,7 +1136,9 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
             markerForGeofence(GeolatLng);
             startGeofence();
         }
-
+            GetLoctionAddress locationAddress = new GetLoctionAddress();
+            locationAddress.getFromLocation(location.getLatitude(), location.getLongitude(), getApplicationContext(),
+                    new GeocoderHandler());
     }
 
     private void writeLastLocation() {

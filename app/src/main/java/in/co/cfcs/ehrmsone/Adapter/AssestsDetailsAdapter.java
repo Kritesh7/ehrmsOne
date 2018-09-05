@@ -69,7 +69,6 @@ public class AssestsDetailsAdapter extends RecyclerView.Adapter<AssestsDetailsAd
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             assestsNameTxt = (TextView) itemView.findViewById(R.id.assesname);
             brandNameTxt = (TextView) itemView.findViewById(R.id.brandname);
             issuesDateTxt = (TextView) itemView.findViewById(R.id.issuesdate);
@@ -77,7 +76,6 @@ public class AssestsDetailsAdapter extends RecyclerView.Adapter<AssestsDetailsAd
             issuesReasonsTxt = (TextView) itemView.findViewById(R.id.issuesreasons);
             remarkTxt = (TextView) itemView.findViewById(R.id.remark);
             holderNameTxt = (TextView) itemView.findViewById(R.id.username);
-
             mainLay = (CardView) itemView.findViewById(R.id.assets_main_lay);
         }
     }

@@ -242,8 +242,6 @@ public class HotelBookingListAdapter extends RecyclerView.Adapter<HotelBookingLi
                             Toast.makeText(context, "Delete successfully", Toast.LENGTH_SHORT).show();
                         }
                     }
-
-
                     pDialog.dismiss();
 
                 } catch (JSONException e) {

@@ -97,14 +97,12 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.ViewHolder>
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             skillTxt = (TextView)itemView.findViewById(R.id.skill);
             proficencyTxt = (TextView)itemView.findViewById(R.id.proficiency);
             sourceTxt = (TextView)itemView.findViewById(R.id.source);
             lastUsedTxt = (TextView)itemView.findViewById(R.id.lastused);
             currentUsedTxt = (LinearLayout)itemView.findViewById(R.id.currentused);
             view = (View) itemView.findViewById(R.id.view);
-
             mainLay = (LinearLayout)itemView.findViewById(R.id.main_lay);
         }
     }

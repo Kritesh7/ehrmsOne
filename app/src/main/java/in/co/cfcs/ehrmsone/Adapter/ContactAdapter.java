@@ -68,7 +68,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         holder.postCodeTxt.setText(model.getPostalcode());
         holder.countryNameTxt.setText(model.getCounteryName());
         holder.lastUpdateTxt.setText(model.getLastUpdate());
-
         holder.mainLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,11 +112,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             postCodeTxt = (TextView)itemView.findViewById(R.id.postalcode);
             countryNameTxt = (TextView)itemView.findViewById(R.id.countrycode);
             lastUpdateTxt = (TextView)itemView.findViewById(R.id.lastupdate);
-
             mainLay = (LinearLayout) itemView.findViewById(R.id.main_lay);
-
-
-
         }
     }
 

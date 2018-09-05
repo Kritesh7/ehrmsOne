@@ -392,7 +392,7 @@ public class ManagerDashBoardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent ik = new Intent(getActivity(), ManagerFilterActivity.class);
-                ik.putExtra("CheckingTheActivity", "Team Average Report");
+                ik.putExtra("CheckingTheActivity", "Attendance Basic Log");
                 startActivity(ik);
                 getActivity().overridePendingTransition(R.anim.push_right_in, R.anim.push_left_out);
             }
@@ -402,7 +402,7 @@ public class ManagerDashBoardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent ik = new Intent(getActivity(), ManagerFilterActivity.class);
-                ik.putExtra("CheckingTheActivity", "Attendance Basic Log");
+                ik.putExtra("CheckingTheActivity", "Team Average Report");
                 startActivity(ik);
                 getActivity().overridePendingTransition(R.anim.push_right_in, R.anim.push_left_out);
             }

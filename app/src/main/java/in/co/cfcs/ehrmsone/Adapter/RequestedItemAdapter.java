@@ -77,8 +77,6 @@ public class RequestedItemAdapter extends BaseAdapter
         {
             holder.remarkTxt.setVisibility(View.GONE);
         }
-
-
         return view;
     }
 

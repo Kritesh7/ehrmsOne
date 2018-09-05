@@ -104,10 +104,7 @@ public class AddStationoryAndDocumentRequestNewAdapter extends RecyclerView.Adap
 
                         list.get(position).setRemark("");
                     }
-
                 }
-
-
             }
 
             @Override
@@ -131,15 +128,12 @@ public class AddStationoryAndDocumentRequestNewAdapter extends RecyclerView.Adap
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTxt, numberTxt;
         public EditText quantityTxt, remarkTxt;
-
         public ViewHolder(View itemView) {
             super(itemView);
-
             nameTxt = (TextView) itemView.findViewById(R.id.itemname);
             numberTxt = (TextView) itemView.findViewById(R.id.number);
             quantityTxt = (EditText) itemView.findViewById(R.id.edit_quantity);
             remarkTxt = (EditText) itemView.findViewById(R.id.remark);
-
         }
     }
 

@@ -182,7 +182,6 @@ public class PersonalDetailsFragment extends Fragment {
 
         pDialog = new ProgressDialog(getActivity(), R.style.AppCompatAlertDialogStyle);
 
-
         //material Spinner
         materialStatusSpinner.getBackground().setColorFilter(getResources().getColor(R.color.status_color), PorterDuff.Mode.SRC_ATOP);
 
@@ -216,7 +215,6 @@ public class PersonalDetailsFragment extends Fragment {
         zoneList.add("Please Select Zone");
         zoneList.add("IT-Noida");
         zoneList.add("IT-Delhi");
-
 
         //change spinner arrow color
         zoneSpinner.getBackground().setColorFilter(getResources().getColor(R.color.status_color), PorterDuff.Mode.SRC_ATOP);

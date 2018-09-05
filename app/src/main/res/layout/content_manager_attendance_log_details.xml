@@ -26,7 +26,7 @@
                 android:orientation="horizontal"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -48,15 +48,11 @@
 
                         <TextView
                             android:id="@+id/caldatetxt"
-                            android:padding="5dp"
+                            android:padding="0dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="DATE"/>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/status_color"/>
 
                     </LinearLayout>
 
@@ -74,7 +70,7 @@
 
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:id="@+id/attendace_log_list_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

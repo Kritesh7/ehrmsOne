@@ -64,7 +64,6 @@ public class ApplyShortLeaveActivity extends AppCompatActivity {
     public String userid = "", authCode = "", mgrId = "", type = "", MsgNotification = "", userName = "", compId = "";
     public Button subBtn;
     public EditText commentTxt;
-
     String LoginStatus;
     String invalid = "loginfailed";
     String msgstatus;
