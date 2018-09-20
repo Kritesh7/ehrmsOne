@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -62,14 +63,14 @@ import in.co.cfcs.ehrmsone.Source.UtilsMethods;
 
 public class AddCabActivity extends AppCompatActivity {
 
-    public TextView titleTxt, timeBtn, timeTxt, timeBtn1, timeTxt1, timeBtn2, timeTxt2;
+    public TextView titleTxt, timeBtn, timeTxt, timeBtn1, timeTxt1, timeBtn2, timeTxt2,dateBtn,dateTxt;
     public Spinner cityOfBookingSpinner;
     public ArrayList<CabCityModel> listOfBooking = new ArrayList<>();
     public ArrayList<StaticModel> staticList = new ArrayList<>();
     public Button addBtn;
     public ImageView dateBtn1, dateBtn2;
-    public EditText dateTxt, dateTxt1, dateTxt2, sourceAddTxt, destinationDDtXT, bookingRemarkTxt,
-            sourceAddTxt1, destinationDDtXT1, sourceAddTxt2, destinationDDtXT2, dateBtn;
+    public EditText dateTxt1, dateTxt2, sourceAddTxt, destinationDDtXT, bookingRemarkTxt,
+            sourceAddTxt1, destinationDDtXT1, sourceAddTxt2, destinationDDtXT2;
     private int yy, mm, dd;
     private int mYear, mMonth, mDay, mHour, mMinute;
     public String ddlBindTxt = SettingConstant.BaseUrl + "AppddlBookMeAProvision";
@@ -133,11 +134,11 @@ public class AddCabActivity extends AppCompatActivity {
 
         cityOfBookingSpinner = (Spinner) findViewById(R.id.cityofbokkinglist);
         addBtn = (Button) findViewById(R.id.newrequestbtn);
-        dateBtn = (EditText) findViewById(R.id.cab_booking_date);
+        dateBtn = (TextView) findViewById(R.id.cab_booking_date);
         timeBtn = (TextView) findViewById(R.id.cab_bokkint_time);
         timeBtn1 = (TextView) findViewById(R.id.cab_bokkint_time1);
         timeBtn2 = (TextView) findViewById(R.id.cab_bokkint_time2);
-        dateTxt = (EditText) findViewById(R.id.cab_booking_date);
+        dateTxt = (TextView) findViewById(R.id.cab_booking_date);
         timeTxt = (TextView) findViewById(R.id.cab_bokkint_time);
         timeTxt1 = (TextView) findViewById(R.id.cab_bokkint_time1);
         timeTxt2 = (TextView) findViewById(R.id.cab_bokkint_time2);
@@ -214,7 +215,12 @@ public class AddCabActivity extends AppCompatActivity {
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                if(Build.VERSION.SDK_INT < 23){
+                    datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+                }else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                }
             }
         });
 

@@ -299,7 +299,6 @@ public class ViewCabDetailsActivity extends AppCompatActivity {
 
     private void Logout() {
 
-
         finishAffinity();
         startActivity(new Intent(ViewCabDetailsActivity.this, LoginActivity.class));
 

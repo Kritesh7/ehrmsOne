@@ -42,63 +42,63 @@
                         android:layout_width="match_parent"
                         android:layout_height="240dp">
 
-                    <FrameLayout
-                        android:id="@+id/camera_view"
-                        android:layout_width="180dp"
-                        android:layout_height="240dp">
+                        <FrameLayout
+                            android:id="@+id/camera_view"
+                            android:layout_width="180dp"
+                            android:layout_height="240dp">
 
 
 
-                    </FrameLayout>
+                        </FrameLayout>
 
-                       <LinearLayout
-                           android:layout_gravity="center"
-                           android:gravity="center"
-                           android:layout_marginLeft="5dp"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
-                           <TextView
-                               android:layout_marginTop="10dp"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:text="Date"
-                               android:textStyle="bold"
-                               android:textSize="18sp"/>
-
-
-                           <TextView
-                               android:layout_marginTop="10dp"
-                               android:id="@+id/date"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:text="Date: "
-                               android:textColor="@color/status_color"
-                               android:textSize="16sp"
-                               />
-
-                           <TextView
-                               android:layout_marginTop="10dp"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:text="Time"
-                               android:textStyle="bold"
-                               android:textSize="16sp"/>
-
-                           <TextView
-                               android:layout_marginTop="10dp"
-                               android:id="@+id/time"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:text="Time: "
-                               android:textColor="@color/status_color"
-                               android:textSize="16sp"
-                               />
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Date"
+                                android:textStyle="bold"
+                                android:textSize="18sp"/>
 
 
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Date: "
+                                android:textColor="@color/status_color"
+                                android:textSize="16sp"
+                                />
 
-                       </LinearLayout>
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Time"
+                                android:textStyle="bold"
+                                android:textSize="16sp"/>
+
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Time: "
+                                android:textColor="@color/status_color"
+                                android:textSize="16sp"
+                                />
+
+
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -139,7 +139,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/addreestxt"
@@ -165,25 +166,25 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                   <RadioGroup
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:orientation="horizontal"
-                       android:checkedButton="@+id/rd_in">
-                       <RadioButton
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="IN"
-                           android:id="@+id/rd_in"/>
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:checkedButton="@+id/rd_in">
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IN"
+                            android:id="@+id/rd_in"/>
 
-                       <RadioButton
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="OUT"
-                           android:id="@+id/rd_out"
-                           android:layout_marginLeft="20dp"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OUT"
+                            android:id="@+id/rd_out"
+                            android:layout_marginLeft="20dp"/>
 
-                   </RadioGroup>
+                    </RadioGroup>
 
                 </LinearLayout>
                 <LinearLayout
@@ -217,17 +218,17 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/submitbtn"
-        android:layout_width="0dp"
-        android:layout_weight=".5"
-        android:layout_height="wrap_content"
-        android:background="@color/purple700"
-        android:text="Submit"
-        android:layout_marginRight="10dp"
-        android:textColor="@color/white"
+        <Button
+            android:id="@+id/submitbtn"
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:layout_height="wrap_content"
+            android:background="@color/purple700"
+            android:text="Submit"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/white"
 
-       />
+            />
 
         <Button
             android:id="@+id/cancelbtn"
@@ -237,7 +238,6 @@
             android:background="@color/purple700"
             android:text="Cancel"
             android:textColor="@color/white"
-
             />
 
     </LinearLayout>

@@ -29,51 +29,51 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Document Type"
-                android:textColor="@color/purple700"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:layout_weight=".28"
-                android:background="@drawable/spinner_background"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/documenttypespinner"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:spinnerMode="dropdown" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_arrow" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Document Type"
+                        android:textColor="@color/purple700"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-            </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"
+                        android:layout_weight=".28"
+                        android:background="@drawable/spinner_background"
+                        android:orientation="horizontal">
 
-        </LinearLayout>
+                        <Spinner
+                            android:id="@+id/documenttypespinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/ic_arrow" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,22 +123,50 @@
                         android:textStyle="bold" />
 
 
-
-                    <TextView
-                        android:id="@+id/issuedatetxt"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/purple700"
-                        android:textColorHint="@color/dark_gray"
-                        android:textSize="14sp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:background="@drawable/spinner_background"
-                        android:clickable="true"
-                        android:drawablePadding="10dp"
-                        android:drawableRight="@drawable/ic_cal"
-                        android:editable="false"
-                        android:hint="Issues Date"
-                        android:padding="10dp"
-                        android:layout_marginLeft="2dp"/>
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/issuedatetxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/purple700"
+                                android:textColorHint="@color/dark_gray"
+                                android:textSize="14sp"
+                                android:clickable="true"
+                                android:drawablePadding="10dp"
+                                android:editable="false"
+                                android:hint="Issues Date"
+                                android:layout_marginLeft="2dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="9">
+
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".1"
+                                app:srcCompat="@drawable/ic_cal" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -157,22 +185,50 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-
-                    <TextView
-                        android:id="@+id/expirydatetxt"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/purple700"
-                        android:textColorHint="@color/dark_gray"
-                        android:textSize="14sp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:background="@drawable/spinner_background"
-                        android:clickable="true"
-                        android:drawablePadding="10dp"
-                        android:drawableRight="@drawable/ic_cal"
-                        android:editable="false"
-                        android:hint="Expiry Date"
-                        android:padding="10dp"
-                        android:layout_marginLeft="2dp"/>
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/expirydatetxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/purple700"
+                                android:textColorHint="@color/dark_gray"
+                                android:textSize="14sp"
+                                android:clickable="true"
+                                android:drawablePadding="10dp"
+                                android:editable="false"
+                                android:hint="Expiry Date"
+                                android:layout_marginLeft="2dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="9">
+
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".1"
+                                app:srcCompat="@drawable/ic_cal" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -202,40 +258,40 @@
                     android:textSize="14sp"
                     />
 
-        <Button
-            android:id="@+id/uploaddocsbtn"
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Upload"/>
+                <Button
+                    android:id="@+id/uploaddocsbtn"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload"/>
 
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/file_selecttxt"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/file_selecttxt"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        <TextView
-            android:gravity="center_vertical"
-            android:textColor="#4CAF50"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="0dp"
-            android:layout_weight=".8"
-            android:layout_height="match_parent"
-            android:text="File Selected successfully"/>
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:textColor="#4CAF50"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_weight=".8"
+                        android:layout_height="match_parent"
+                        android:text="File Selected successfully"/>
 
-            <ImageView
-                android:id="@+id/crossbtn"
-                android:layout_width="0dp"
-                android:layout_weight=".2"
-                android:src="@drawable/cross"
-                android:layout_height="wrap_content" />
+                    <ImageView
+                        android:id="@+id/crossbtn"
+                        android:layout_width="0dp"
+                        android:layout_weight=".2"
+                        android:src="@drawable/cross"
+                        android:layout_height="wrap_content" />
 
 
 
-        </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
 

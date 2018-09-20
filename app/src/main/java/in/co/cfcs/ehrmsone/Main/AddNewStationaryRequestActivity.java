@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -181,7 +182,12 @@ public class AddNewStationaryRequestActivity extends AppCompatActivity implement
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                if(Build.VERSION.SDK_INT < 23){
+                    datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+                }else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                }
             }
         });
 
@@ -224,7 +230,12 @@ public class AddNewStationaryRequestActivity extends AppCompatActivity implement
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                if(Build.VERSION.SDK_INT < 23){
+                    datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+                }else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                }
 
             }
         });

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -42,6 +43,7 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -172,7 +174,16 @@ public class AddDocumentActivity extends AppCompatActivity implements AddItemInt
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                long currentTime = new Date().getTime();
+
+                if(Build.VERSION.SDK_INT < 23){
+                    datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+                }else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                }
+
+
             }
         });
 
@@ -215,7 +226,13 @@ public class AddDocumentActivity extends AppCompatActivity implements AddItemInt
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                if(Build.VERSION.SDK_INT < 23){
+                    datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+                }else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                }
+
 
             }
         });

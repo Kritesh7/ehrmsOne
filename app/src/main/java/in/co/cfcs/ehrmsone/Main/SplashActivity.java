@@ -75,7 +75,6 @@ public class SplashActivity extends AppCompatActivity {
         conn = new ConnectionDetector(SplashActivity.this);
         userid = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAdminId(SplashActivity.this)));
         authcode = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAuthCode(SplashActivity.this)));
-        gps = new GPSTracker(SplashActivity.this, SplashActivity.this);
         loginStatus = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getStatus(SplashActivity.this)));
 
         if (authcode.equalsIgnoreCase("null")) {
@@ -92,9 +91,15 @@ public class SplashActivity extends AppCompatActivity {
             }, REQUEST_WRITE_PERMISSION);
         } else {
 
+            checkGPSTracker();
             checkGPS();
         }
 
+    }
+
+    public void checkGPSTracker(){
+
+        gps = new GPSTracker(SplashActivity.this, SplashActivity.this);
 
     }
 
@@ -172,6 +177,7 @@ public class SplashActivity extends AppCompatActivity {
         switch (requestCode) {
 
             case REQUEST_WRITE_PERMISSION:
+                checkGPSTracker();
                 checkGPS();
         }
 

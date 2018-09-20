@@ -38,8 +38,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.Window;
@@ -216,6 +219,12 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
     public static String id1 = "ehrms_channel_01";
 
+    android.app.AlertDialog dialog1;
+
+    Calendar myCalendar;
+
+    String LocationOnOff ="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,6 +257,8 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                 onBackPressed();
             }
         });
+
+        myCalendar = Calendar.getInstance();
 
         gpsTracker = new GPSTracker(AttendanceModule.this, AttendanceModule.this);
         conn = new ConnectionDetector(AttendanceModule.this);
@@ -358,89 +369,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
             }
         });
 
-        try {
-
-            if (checkCameraRear()) {
-
-                if (checkCameraFront(AttendanceModule.this)) {
-                    mCamera = Camera.open(1);
-                } else {
-                    mCamera = Camera.open();
-                }
-            } else {
-                Toast.makeText(this, "Camera is Not support your device", Toast.LENGTH_SHORT).show();
-            }
-
-            //you can use open(int) to use different cameras
-
-        } catch (Exception e) {
-            Log.d("ERROR", "Failed to get camera: " + e.getMessage());
-        }
-
-        if (mCamera != null) {
-            mCameraView = new CameraView(this, mCamera);//create a SurfaceView to show camera data
-            camera_view = (FrameLayout) findViewById(R.id.camera_view);
-            camera_view.addView(mCameraView);//add the SurfaceView to the layout
-        }
-
-        //btn to close the application
-        ImageButton imgClose = (ImageButton) findViewById(R.id.imgClose);
-        imgClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.exit(0);
-            }
-        });
-
-
-        //click on button and take pic
-
-
-        final Camera.PictureCallback jpegCallback = new Camera.PictureCallback() {
-            public void onPictureTaken(byte[] data, Camera camera) {
-                FileOutputStream outStream = null;
-                Bitmap bm = null;
-
-                if (data != null) {
-                    int screenWidth = getResources().getDisplayMetrics().widthPixels;
-                    int screenHeight = getResources().getDisplayMetrics().heightPixels;
-                    bm = BitmapFactory.decodeByteArray(data, 0, (data != null) ? data.length : 0);
-
-                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        // Notice that width and height are reversed
-                        Bitmap scaled = Bitmap.createScaledBitmap(bm, screenHeight, screenWidth, true);
-                        int w = scaled.getWidth();
-                        int h = scaled.getHeight();
-                        // Setting post rotate to 90
-                        Matrix mtx = new Matrix();
-
-                        int CameraEyeValue = setPhotoOrientation(AttendanceModule.this, checkCameraFront(AttendanceModule.this) == true ? 1 : 0); // CameraID = 1 : front 0:back
-                        if (checkCameraFront(AttendanceModule.this)) { // As Front camera is Mirrored so Fliping the Orientation
-                            if (CameraEyeValue == 270) {
-                                mtx.postRotate(90);
-                            } else if (CameraEyeValue == 90) {
-                                mtx.postRotate(270);
-                            }
-                        } else {
-                            mtx.postRotate(CameraEyeValue); // CameraEyeValue is default to Display Rotation
-                        }
-
-                        bm = Bitmap.createBitmap(scaled, 0, 0, w, h, mtx, true);
-                    } else {// LANDSCAPE MODE
-                        //No need to reverse width and height
-                        Bitmap scaled = Bitmap.createScaledBitmap(bm, screenWidth, screenHeight, true);
-                        bm = scaled;
-                    }
-                }
-
-
-                imageBase64 = getEncoded64ImageStringFromBitmap(bm);
-
-                // profileImg.setImageBitmap(bm);
-
-                camera.startPreview();
-            }
-        };
+        openCamera();
 
         builder = new LatLngBounds.Builder();
 
@@ -450,79 +379,91 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
                 boolean isMock = false;
 
-                if (rd_out.isChecked() && InOutStatusDate.compareToIgnoreCase(getCurrentTime()) != 0) {
-                    ShowPopupAttendanceMiss();
-                } else {
+                if(mCamera != null){
 
-                    mCamera.takePicture(null, null, jpegCallback);
-                    pDialog = new ProgressDialog(AttendanceModule.this, R.style.AppCompatAlertDialogStyle);
-                    pDialog.setTitle("Mark Attendance");
-                    pDialog.setMessage("Please Wait...");
-                    pDialog.show();
+                    if (rd_out.isChecked() && InOutStatusDate.compareToIgnoreCase(getCurrentTime()) != 0) {
+                        ShowPopupAttendanceMiss();
+                    } else {
 
-                    if(lastLocation != null){
-                        isMock = MockLocationDetector.isLocationFromMockProvider(AttendanceModule.this, lastLocation);
-                    }else {
-                        gpsTracker.showSettingsAlert();
-                    }
-                   // boolean isMock = MockLocationDetector.isLocationFromMockProvider(AttendanceModule.this, lastLocation);
-                    boolean mockLocationAppsPresent = MockLocationDetector.checkForAllowMockLocationsApps(AttendanceModule.this);
-                    boolean isAllowMockLocationsON = MockLocationDetector.isAllowMockLocationsOn(AttendanceModule.this);
-                    boolean finalIsMock = isMock;
-                    new Handler().postDelayed(new Runnable() {
+                        mCamera.takePicture(null, null, jpegCallback);
+                        pDialog = new ProgressDialog(AttendanceModule.this, R.style.AppCompatAlertDialogStyle);
+                        pDialog.setTitle("Mark Attendance");
+                        pDialog.setMessage("Please Wait...");
+                        pDialog.show();
 
-                        @Override
-                        public void run() {
-                            // This method will be executed once the timer is over
-                            // Start your app main activity
-                            if (imageBase64.equalsIgnoreCase("")) {
-                                Toast.makeText(AttendanceModule.this, "Please Click the pic properely", Toast.LENGTH_SHORT).show();
-                            } else if (addTxt.getText().toString().equalsIgnoreCase("")) {
-                                addTxt.setError("Please get address");
-                               // Toast.makeText(AttendanceModule.this, "Unable To Find Your Location", Toast.LENGTH_SHORT).show();
-                                ScanckBar();
-                                pDialog.dismiss();
-                            } else if (finalIsMock) {
-                                Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
-                                pDialog.dismiss();
-                            } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
-                                Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
-                                ScanckBar();
-                            } else {
-                                if (rd_in.isChecked()) {
-
-                                    if (conn.getConnectivityStatus() > 0) {
-
-                                        TrackService();
-
-                                        attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
-                                                remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimePresentTime, TypeAuto);
-                                       // Toast.makeText(AttendanceModule.this, AttDateTimePresentTime, Toast.LENGTH_LONG).show();
-                                    } else {
-
-                                        conn.showNoInternetAlret();
-                                    }
-
-                                } else if (rd_out.isChecked()) {
-
-                                    if (conn.getConnectivityStatus() > 0) {
-
-                                        StopTrackService();
-
-                                        attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
-                                                remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimePresentTime, TypeAuto);
-
-                                    } else {
-
-                                        conn.showNoInternetAlret();
-                                    }
-                                }
-
-
-                            }
+                        if(lastLocation != null){
+                            isMock = MockLocationDetector.isLocationFromMockProvider(AttendanceModule.this, lastLocation);
+                        }else {
+                            gpsTracker.showSettingsAlert();
                         }
-                    }, 3000);
+                        // boolean isMock = MockLocationDetector.isLocationFromMockProvider(AttendanceModule.this, lastLocation);
+                        boolean mockLocationAppsPresent = MockLocationDetector.checkForAllowMockLocationsApps(AttendanceModule.this);
+                        boolean isAllowMockLocationsON = MockLocationDetector.isAllowMockLocationsOn(AttendanceModule.this);
+                        boolean finalIsMock = isMock;
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // This method will be executed once the timer is over
+                                // Start your app main activity
+                                if (imageBase64.equalsIgnoreCase("")) {
+                                    Toast.makeText(AttendanceModule.this, "Please Click the pic properely", Toast.LENGTH_SHORT).show();
+                                } else  if (lastLocation == null) {
+                                    Toast.makeText(AttendanceModule.this, "Unable To Find Your Location", Toast.LENGTH_SHORT).show();
+                                    ScanckBar();
+                                    pDialog.dismiss();
+                                } else if (finalIsMock) {
+                                    Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
+                                    pDialog.dismiss();
+                                } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
+                                    Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
+                                    ScanckBar();
+                                } else {
+                                    if (rd_in.isChecked()) {
+
+                                        if (conn.getConnectivityStatus() > 0) {
+
+                                            if(LocationOnOff.compareToIgnoreCase("true") == 0){
+
+                                                TrackService();
+                                            }
+
+                                            attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
+                                                    remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimePresentTime, TypeAuto);
+                                            // Toast.makeText(AttendanceModule.this, AttDateTimePresentTime, Toast.LENGTH_LONG).show();
+                                        } else {
+
+                                            conn.showNoInternetAlret();
+                                        }
+
+                                    } else if (rd_out.isChecked()) {
+
+                                        if (conn.getConnectivityStatus() > 0) {
+
+                                            StopTrackService();
+
+                                            attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
+                                                    remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimePresentTime, TypeAuto);
+
+                                        } else {
+
+                                            conn.showNoInternetAlret();
+                                        }
+                                    }
+
+
+                                }
+                            }
+                        }, 3000);
+                    }
+                }else {
+
+                    onBackPressed();
+                    Toast.makeText(AttendanceModule.this,"Please allow following permissions: Location,Camera,Media than able to mark attendance,Reinstall app",Toast.LENGTH_LONG).show();
+
                 }
+
+
             }
         });
     }
@@ -536,7 +477,6 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                     @Override
                     public void onClick(View view) {
                         startLocationUpdates();
-                        addTxt.setError(null);
                     }
                 });
 
@@ -597,8 +537,173 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
     private void ShowPopupAttendanceMiss() {
 
+        final TextView tv_date_time,tv_date_time_error,tv_miss_attendance_msg;
+        final Button btn_submit_miss_attendance;
+        final LinearLayout ll_time_error;
+
+        final android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View convertView = (View) inflater.inflate(R.layout.miss_attendance_popup_layout, null);
+        alertDialog.setView(convertView);
+
+        tv_date_time = convertView.findViewById(R.id.tv_date_time);
+        btn_submit_miss_attendance = convertView.findViewById(R.id.btn_submit_miss_attendance);
+        tv_date_time_error = convertView.findViewById(R.id.tv_date_time_error);
+        ll_time_error = convertView.findViewById(R.id.ll_time_error);
+        tv_miss_attendance_msg = convertView.findViewById(R.id.tv_miss_attendance_msg);
+
+        String Misstext = "Forgotten attendance at date"+" "+"<font color=#cc0029>"+InOutStatusDate+"</font>" +" "+ "please choose correct out time from below box and after that submit.";
+
+        tv_miss_attendance_msg.setText(Html.fromHtml(Misstext));
+
+        ll_time_error.setVisibility(View.GONE);
+
+        dialog1 = alertDialog.create();
+
+        final TimePickerDialog.OnTimeSetListener time_picker = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                int hour = hourOfDay;
+                int minutes = minute;
+
+                String timeSet = "";
+                if (hour > 12) {
+                    hour -= 12;
+                    timeSet = "PM";
+                } else if (hour == 0) {
+                    hour += 12;
+                    timeSet = "AM";
+                } else if (hour == 12) {
+                    timeSet = "PM";
+                } else {
+                    timeSet = "AM";
+                }
+
+                String min = "";
+                if (minutes < 10)
+                    min = "0" + minutes;
+                else
+                    min = String.valueOf(minutes);
+
+                // Append in a StringBuilder
+                String aTime = new StringBuilder().append(hour).append(':')
+                        .append(min).append(" ").append(timeSet).toString();
+
+                AttDateTimeMissed = InOutStatusDate + " " + aTime;
+
+                tv_date_time.setText(aTime);
+
+                ll_time_error.setVisibility(View.GONE);
+
+            }
+        };
+
+        tv_date_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            //   OpenTimeDialog();
+
+                final Calendar c = Calendar.getInstance();
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
+
+                new TimePickerDialog(AttendanceModule.this,android.R.style.Theme_Holo_Dialog,time_picker,hour,minute,false).show();
+
+            }
+        });
+
+        btn_submit_miss_attendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String tv_compare = tv_date_time.getText().toString();
+
+                if(tv_compare.compareToIgnoreCase("") != 0){
+
+
+                    mCamera.takePicture(null, null, jpegCallback);
+                    pDialog = new ProgressDialog(AttendanceModule.this, R.style.AppCompatAlertDialogStyle);
+                    pDialog.setTitle("Mark Attendance");
+                    pDialog.setMessage("Please Wait...");
+                    pDialog.show();
+
+                    boolean isMock = MockLocationDetector.isLocationFromMockProvider(AttendanceModule.this, lastLocation);
+                    boolean mockLocationAppsPresent = MockLocationDetector.checkForAllowMockLocationsApps(AttendanceModule.this);
+                    boolean isAllowMockLocationsON = MockLocationDetector.isAllowMockLocationsOn(AttendanceModule.this);
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            // This method will be executed once the timer is over
+                            // Start your app main activity
+                            if (imageBase64.equalsIgnoreCase("")) {
+                                Toast.makeText(AttendanceModule.this, "Please Click the pic properely", Toast.LENGTH_SHORT).show();
+                            } else if (lastLocation == null) {
+                                Toast.makeText(AttendanceModule.this, "Unable To Find Your Location", Toast.LENGTH_SHORT).show();
+                                ScanckBar();
+                                pDialog.dismiss();
+                            } else if (isMock) {
+                                Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
+                                pDialog.dismiss();
+                            } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
+                                Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
+                                ScanckBar();
+                            } else {
+
+                                if (rd_out.isChecked()) {
+
+                                    if (conn.getConnectivityStatus() > 0) {
+
+                                        StopTrackService();
+
+                                        attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
+                                                remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimeMissed, TypeManula);
+
+                                        rd_out.setVisibility(View.GONE);
+                                        rd_in.setVisibility(View.VISIBLE);
+                                        rd_in.setChecked(true);
+                                        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setInOutStatus(AttendanceModule.this,
+                                                "")));
+                                        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setInOutStatusDate(AttendanceModule.this,
+                                                "")));
+
+                                    } else {
+
+                                        conn.showNoInternetAlret();
+                                    }
+                                }
+
+
+                            }
+                        }
+                    }, 3000);
+
+                    dialog1.dismiss();
+
+                }else {
+
+                    tv_date_time_error.setText("Please choose time from box");
+                    ll_time_error.setVisibility(View.VISIBLE);
+                }
+
+
+
+            }
+        });
+
+        dialog1.setCancelable(false);
+        dialog1.setCanceledOnTouchOutside(false);
+
+        dialog1.show();
+
+    }
+
+    private void OpenTimeDialog() {
+
         // Launch Time Picker Dialog
-        timePickerDialog = new TimePickerDialog(this, android.R.style.Theme_Holo_Dialog,
+        timePickerDialog = new TimePickerDialog(getBaseContext(), android.R.style.Theme_Holo_Dialog,
                 new TimePickerDialog.OnTimeSetListener() {
 
                     @Override
@@ -635,62 +740,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
                         AttDateTimeMissed = InOutStatusDate + " " + aTime;
 
-                        mCamera.takePicture(null, null, jpegCallback);
-                        pDialog = new ProgressDialog(AttendanceModule.this, R.style.AppCompatAlertDialogStyle);
-                        pDialog.setTitle("Mark Attendance");
-                        pDialog.setMessage("Please Wait...");
-                        pDialog.show();
 
-                        boolean isMock = MockLocationDetector.isLocationFromMockProvider(AttendanceModule.this, lastLocation);
-                        boolean mockLocationAppsPresent = MockLocationDetector.checkForAllowMockLocationsApps(AttendanceModule.this);
-                        boolean isAllowMockLocationsON = MockLocationDetector.isAllowMockLocationsOn(AttendanceModule.this);
-                        new Handler().postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                // This method will be executed once the timer is over
-                                // Start your app main activity
-                                if (imageBase64.equalsIgnoreCase("")) {
-                                    Toast.makeText(AttendanceModule.this, "Please Click the pic properely", Toast.LENGTH_SHORT).show();
-                                } else if (addTxt.getText().toString().equalsIgnoreCase("")) {
-                                    addTxt.setError("Please get address");
-                                    ScanckBar();
-                                    pDialog.dismiss();
-                                } else if (isMock) {
-                                    Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
-                                    pDialog.dismiss();
-                                } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
-                                    Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
-                                    ScanckBar();
-                                } else {
-
-                                    if (rd_out.isChecked()) {
-
-                                        if (conn.getConnectivityStatus() > 0) {
-
-                                            StopTrackService();
-
-                                            attendaceDetails(userId, lastLocation.getLongitude() + "", lastLocation.getLatitude() + "", addTxt.getText().toString(),
-                                                    remarkTxt.getText().toString(), imageBase64, authCode, ".jpeg", AttDateTimeMissed, TypeManula);
-
-                                            rd_out.setVisibility(View.GONE);
-                                            rd_in.setVisibility(View.VISIBLE);
-                                            rd_in.setChecked(true);
-                                            UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setInOutStatus(AttendanceModule.this,
-                                                    "")));
-                                            UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setInOutStatusDate(AttendanceModule.this,
-                                                    "")));
-
-                                        } else {
-
-                                            conn.showNoInternetAlret();
-                                        }
-                                    }
-
-
-                                }
-                            }
-                        }, 3000);
 
 
                     }
@@ -733,8 +783,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     @SuppressLint("NewApi")
     private void TrackService() {
 
-        double innerlat = gpsTracker.getLatitude();
-        double inerlog = gpsTracker.getLongitude();
+
         subBtn.setVisibility(View.GONE);
 
 
@@ -786,6 +835,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                             //  subBtn.setVisibility(View.VISIBLE);
                             subBtn.setEnabled(true);
                             subBtn.setText("Submit");
+                            LocationOnOff = jsonObject.getString("Location").toString();
                         }
                     } else {
                         CheckGeoFence = 1;
@@ -806,6 +856,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                                 AddressName = jsonObject1.getString("AddressName").toString();
                                 Latt = jsonObject1.getString("Latt").toString();
                                 Lang = jsonObject1.getString("Lang").toString();
+                                LocationOnOff = jsonObject1.getString("Location").toString();
                             }
 
                         }
@@ -813,7 +864,6 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                         geofencingcheckdata(EmployeeName, AddressName, Latt, Lang);
 
                     }
-                    // pDialog.dismiss();
 
                 } catch (JSONException e) {
                     Log.e("checking json excption", e.getMessage());
@@ -849,8 +899,6 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                             "Parse Error",
                             Toast.LENGTH_LONG).show();
                 }
-                pDialog.dismiss();
-
 
             }
         }) {
@@ -1005,13 +1053,15 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
         super.onStart();
 
         // Call GoogleApiClient connection when starting the Activity
-        googleApiClient.connect();
+        if (googleApiClient != null) {
+            googleApiClient.connect();
+        }
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
         // Disconnect GoogleApiClient when stopping Activity
         googleApiClient.disconnect();
     }
@@ -1032,7 +1082,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
         Log.d(TAG, "askPermission()");
         ActivityCompat.requestPermissions(
                 this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CAMERA},
                 REQ_PERMISSION
         );
     }
@@ -1078,6 +1128,17 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
         if (checkPermission())
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+
+        if(lastLocation == null){
+            double innerlat = gpsTracker.getLatitude();
+            double inerlog = gpsTracker.getLongitude();
+
+            lastLocation = new Location("NETWORK");
+            lastLocation.setLatitude(innerlat);
+            lastLocation.setLongitude(inerlog);
+
+            writeActualLocation(lastLocation);
+        }
     }
 
     @Override
@@ -1115,7 +1176,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     private void getLastKnownLocation() {
         Log.d(TAG, "getLastKnownLocation()");
         if (checkPermission()) {
-            lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+          lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             if (lastLocation != null) {
                 Log.i(TAG, "LasKnown location. " +
                         "Long: " + lastLocation.getLongitude() +
@@ -1136,9 +1197,9 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
             markerForGeofence(GeolatLng);
             startGeofence();
         }
-            GetLoctionAddress locationAddress = new GetLoctionAddress();
-            locationAddress.getFromLocation(location.getLatitude(), location.getLongitude(), getApplicationContext(),
-                    new GeocoderHandler());
+//            GetLoctionAddress locationAddress = new GetLoctionAddress();
+//            locationAddress.getFromLocation(location.getLatitude(), location.getLongitude(), getApplicationContext(),
+//                    new GeocoderHandler());
     }
 
     private void writeLastLocation() {
@@ -1540,6 +1601,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted
                     getLastKnownLocation();
+                    openCamera();
 
                 } else {
                     // Permission denied
@@ -1665,5 +1727,93 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
         overridePendingTransition(R.anim.push_left_in,
                 R.anim.push_right_out);
     }
+
+    public void openCamera(){
+
+        try {
+
+            if (checkCameraRear()) {
+
+                if (checkCameraFront(AttendanceModule.this)) {
+                    mCamera = Camera.open(1);
+                } else {
+                    mCamera = Camera.open();
+                }
+            } else {
+                Toast.makeText(this, "Camera is Not support your device", Toast.LENGTH_SHORT).show();
+            }
+
+            //you can use open(int) to use different cameras
+
+        } catch (Exception e) {
+            Log.d("ERROR", "Failed to get camera: " + e.getMessage());
+        }
+
+        if (mCamera != null) {
+            mCameraView = new CameraView(this, mCamera);//create a SurfaceView to show camera data
+            camera_view = (FrameLayout) findViewById(R.id.camera_view);
+            camera_view.addView(mCameraView);//add the SurfaceView to the layout
+        }
+
+        //btn to close the application
+        ImageButton imgClose = (ImageButton) findViewById(R.id.imgClose);
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.exit(0);
+            }
+        });
+
+
+        //click on button and take pic
+
+
+        final Camera.PictureCallback jpegCallback = new Camera.PictureCallback() {
+            public void onPictureTaken(byte[] data, Camera camera) {
+                FileOutputStream outStream = null;
+                Bitmap bm = null;
+
+                if (data != null) {
+                    int screenWidth = getResources().getDisplayMetrics().widthPixels;
+                    int screenHeight = getResources().getDisplayMetrics().heightPixels;
+                    bm = BitmapFactory.decodeByteArray(data, 0, (data != null) ? data.length : 0);
+
+                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        // Notice that width and height are reversed
+                        Bitmap scaled = Bitmap.createScaledBitmap(bm, screenHeight, screenWidth, true);
+                        int w = scaled.getWidth();
+                        int h = scaled.getHeight();
+                        // Setting post rotate to 90
+                        Matrix mtx = new Matrix();
+
+                        int CameraEyeValue = setPhotoOrientation(AttendanceModule.this, checkCameraFront(AttendanceModule.this) == true ? 1 : 0); // CameraID = 1 : front 0:back
+                        if (checkCameraFront(AttendanceModule.this)) { // As Front camera is Mirrored so Fliping the Orientation
+                            if (CameraEyeValue == 270) {
+                                mtx.postRotate(90);
+                            } else if (CameraEyeValue == 90) {
+                                mtx.postRotate(270);
+                            }
+                        } else {
+                            mtx.postRotate(CameraEyeValue); // CameraEyeValue is default to Display Rotation
+                        }
+
+                        bm = Bitmap.createBitmap(scaled, 0, 0, w, h, mtx, true);
+                    } else {// LANDSCAPE MODE
+                        //No need to reverse width and height
+                        Bitmap scaled = Bitmap.createScaledBitmap(bm, screenWidth, screenHeight, true);
+                        bm = scaled;
+                    }
+                }
+
+
+                imageBase64 = getEncoded64ImageStringFromBitmap(bm);
+
+                // profileImg.setImageBitmap(bm);
+
+                camera.startPreview();
+            }
+        };
+    }
+
 }
 

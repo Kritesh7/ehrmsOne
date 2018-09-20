@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -275,7 +276,12 @@ public class AddHotelActivity extends AppCompatActivity {
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                if(Build.VERSION.SDK_INT < 23){
+                    datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+                }else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                }
             }
         });
 
@@ -319,7 +325,12 @@ public class AddHotelActivity extends AppCompatActivity {
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                if(Build.VERSION.SDK_INT < 23){
+                    datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+
+                }else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                }
             }
         });
 

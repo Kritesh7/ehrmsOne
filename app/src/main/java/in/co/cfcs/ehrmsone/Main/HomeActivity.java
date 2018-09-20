@@ -1603,6 +1603,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
             @Override
             public void onClick(View view) {
 
+
                Fragment newFragment = new ManagerDashBoardFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 newFragment.setArguments(bundle);
@@ -1612,6 +1613,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                titleTxt.setText("Manager Dashboard");
 //                Intent intent = new Intent(HomeActivity.this, ManagerRequestToApproveActivity.class);
 //                startActivity(intent);
 //                overridePendingTransition(R.anim.push_right_in, R.anim.push_left_out);
