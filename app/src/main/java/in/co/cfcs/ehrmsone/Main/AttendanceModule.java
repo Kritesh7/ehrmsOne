@@ -3,6 +3,7 @@ package in.co.cfcs.ehrmsone.Main;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -415,9 +416,11 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                                 } else if (finalIsMock) {
                                     Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
                                     pDialog.dismiss();
+                                    pDialog.dismiss();
                                 } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
                                     Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
                                     ScanckBar();
+                                    pDialog.dismiss();
                                 } else {
                                     if (rd_in.isChecked()) {
 
@@ -647,9 +650,11 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                             } else if (isMock) {
                                 Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
                                 pDialog.dismiss();
+                                pDialog.dismiss();
                             } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
                                 Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
                                 ScanckBar();
+                                pDialog.dismiss();
                             } else {
 
                                 if (rd_out.isChecked()) {
@@ -979,7 +984,6 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     public void onResume() {
         super.onResume();
         try {
-
             mCamera = Camera.open(1);
             // Add to Framelayout
             mCameraView = new CameraView(this, mCamera);//create a SurfaceView to show camera data
@@ -1051,7 +1055,6 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     @Override
     protected void onStart() {
         super.onStart();
-
         // Call GoogleApiClient connection when starting the Activity
         if (googleApiClient != null) {
             googleApiClient.connect();
@@ -1064,8 +1067,31 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
         super.onStop();
         // Disconnect GoogleApiClient when stopping Activity
         googleApiClient.disconnect();
+        if (mCameraView != null) {
+            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_view);
+            preview.removeView(mCameraView);
+            mCameraView = null;
+        }
+
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+        int mPendingIntentId = 077;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(getApplicationContext(), mPendingIntentId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        System.exit(0);
+
+//        if (mCamera != null) {
+//            mCameraView = new CameraView(this, mCamera);//create a SurfaceView to show camera data
+//            camera_view = (FrameLayout) findViewById(R.id.camera_view);
+//            camera_view.addView(mCameraView);//add the SurfaceView to the layout
+//        }
+    }
 
     private final int REQ_PERMISSION = 999;
 
@@ -1073,8 +1099,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     private boolean checkPermission() {
         Log.d(TAG, "checkPermission()");
         // Ask for permission if it wasn't granted yet
-        return (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED);
+        return (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED);
     }
 
     // Asks for permission
@@ -1092,6 +1117,11 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     private void permissionsDenied() {
         Log.w(TAG, "permissionsDenied()");
         // TODO close app and warn user
+        Intent i = new Intent(AttendanceModule.this,HomeActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_left_out);
+        Toast.makeText(AttendanceModule.this,"Permission not found please give permission",Toast.LENGTH_LONG).show();
+        finish();
     }
 
     // Initialize GoogleMaps

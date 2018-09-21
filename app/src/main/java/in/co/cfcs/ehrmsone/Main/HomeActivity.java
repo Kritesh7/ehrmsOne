@@ -1943,22 +1943,25 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                 public void onClick(View v) {
                     // onBackPressed();
                     onBackPressed();
-
                 }
             });
         }
 
         //check notification count
-        // if (!countstr.equalsIgnoreCase("" ) || !countstr.equalsIgnoreCase("null")) {
+         if (!countstr.equalsIgnoreCase("" ) || !countstr.equalsIgnoreCase("null")) {
         int co = Integer.parseInt(countstr);
         if (co > 0) {
+
             itemMessagesBadgeTextView.setVisibility(View.VISIBLE);
             itemMessagesBadgeTextView.setText(countstr + "");
+
         } else {
-            itemMessagesBadgeTextView.setVisibility(View.GONE);
+
+                itemMessagesBadgeTextView.setVisibility(View.GONE);
+
         }
 
-        //  }
+          }
 
     }
 
@@ -1966,15 +1969,20 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
     public void onFragmentInteraction(String count) {
 
         //  countinOne = count;
-
+        Toast.makeText(HomeActivity.this,"error"+count,Toast.LENGTH_LONG).show();
 
         if (!count.equalsIgnoreCase("") || !count.equalsIgnoreCase("null")) {
             int co = Integer.parseInt(count);
             if (co > 0) {
+
                 itemMessagesBadgeTextView.setVisibility(View.VISIBLE);
                 itemMessagesBadgeTextView.setText(count + "");
+
             } else {
-                itemMessagesBadgeTextView.setVisibility(View.GONE);
+
+                    itemMessagesBadgeTextView.setVisibility(View.GONE);
+
+
             }
 
         }
