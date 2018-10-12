@@ -678,10 +678,6 @@ public class NewAddLeaveMangementActivity extends AppCompatActivity {
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setCompanyLogo(NewAddLeaveMangementActivity.this,
                 "")));
 
-//        Intent intent = new Intent(NewAddLeaveMangementActivity.this, LoginActivity.class);
-//        startActivity(intent);
-//        finish();
-
 
     }
 

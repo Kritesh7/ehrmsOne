@@ -177,28 +177,6 @@ public class StationaryRequestFragment extends Fragment {
         }
     }
 
-    /*private void prepareInsDetails() {
-
-        StationaryRequestModel model = new StationaryRequestModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-        model = new StationaryRequestModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-        model = new StationaryRequestModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-        model = new StationaryRequestModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-        model = new StationaryRequestModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-
-
-        adapter.notifyDataSetChanged();
-
-    }*/
 
     //Staionry Data
     public void stationryData(final String AuthCode, final String AdminID, final String AppStatus, final String ItemCatID) {

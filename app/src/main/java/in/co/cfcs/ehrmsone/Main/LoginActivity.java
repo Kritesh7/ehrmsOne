@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         pDialog.setMessage("Loading...");
         pDialog.show();
 
+
         StringRequest historyInquiry = new StringRequest(
                 Request.Method.POST, loginUrl, new Response.Listener<String>() {
             @Override

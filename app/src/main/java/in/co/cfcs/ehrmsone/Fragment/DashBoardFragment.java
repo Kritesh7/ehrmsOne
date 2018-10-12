@@ -67,7 +67,6 @@ import java.util.Map;
 import in.co.cfcs.ehrmsone.Main.AttendanceModule;
 import in.co.cfcs.ehrmsone.Main.LoginActivity;
 import in.co.cfcs.ehrmsone.Main.NewAddLeaveMangementActivity;
-import in.co.cfcs.ehrmsone.Manager.ManagerActivity.ManagerDasboardTest;
 import in.co.cfcs.ehrmsone.Model.LeaveSummarryModel;
 import in.co.cfcs.ehrmsone.R;
 import in.co.cfcs.ehrmsone.Source.AppController;
@@ -252,12 +251,11 @@ public class DashBoardFragment extends Fragment {
             conn.showNoInternetAlret();
         }
 
-
-
         attendanceLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+              //  Intent i = new Intent(getActivity(), AttendanceModule.class);
                 Intent i = new Intent(getActivity(), AttendanceModule.class);
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.push_right_in, R.anim.push_left_out);

@@ -7,10 +7,11 @@ package in.co.cfcs.ehrmsone.Source;
 public class SettingConstant {
 
 
+
     //Server
     public static final String BASEURL_FOR_LOGIN = "http://nmthr.co.in/WEBAPI/LoginHRMSService.ASMX/";
     public static final String BaseUrl = "http://nmthr.co.in/WEBAPI/HRMSWebService.ASMX/";
-    public static final String DownloadUrl= "http://nmthr.co.in/";
+    public static final String DownloadUrl = "http://nmthr.co.in/";
     public static final String BaseGeoUrl = "http://nmthr.co.in/WEBAPI/MapWebService.asmx/";
 
 
@@ -32,8 +33,8 @@ public class SettingConstant {
     protected static final String Designation = "Designation";
     protected static final String CompanLogo = "CompanLogo";
     protected static final String CurrentLat = "CurrentLat";
-    protected  static  final String CurrentLang ="CurrentLang";
-    protected static final String InOutStatus="InOutStatus";
-    protected static final String InOutStatusDate ="InOutStatusDate";
+    protected static final String CurrentLang = "CurrentLang";
+    protected static final String InOutStatus = "InOutStatus";
+    protected static final String InOutStatusDate = "InOutStatusDate";
 
 }

@@ -210,7 +210,6 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("Login", "Error: " + error.getMessage());
                 // Log.e("checking now ",error.getMessage());
-
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 pDialog.dismiss();
 

@@ -1969,7 +1969,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
     public void onFragmentInteraction(String count) {
 
         //  countinOne = count;
-        Toast.makeText(HomeActivity.this,"error"+count,Toast.LENGTH_LONG).show();
 
         if (!count.equalsIgnoreCase("") || !count.equalsIgnoreCase("null")) {
             int co = Integer.parseInt(count);
@@ -1982,12 +1981,10 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                     itemMessagesBadgeTextView.setVisibility(View.GONE);
 
-
             }
 
         }
 
     }
-
 
 }

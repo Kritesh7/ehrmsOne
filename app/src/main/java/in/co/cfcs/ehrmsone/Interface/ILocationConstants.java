@@ -6,7 +6,7 @@ public interface ILocationConstants {
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    long UPDATE_INTERVAL_IN_MILLISECONDS = 300000;
+    long UPDATE_INTERVAL_IN_MILLISECONDS = 1800000;
 
     /**
      * If accuracy is lesser than 100m , discard it

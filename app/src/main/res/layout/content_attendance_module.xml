@@ -59,27 +59,19 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:layout_marginTop="10dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Date"
-                                android:textStyle="bold"
-                                android:textSize="18sp"/>
-
 
                             <TextView
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="5dp"
                                 android:id="@+id/date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Date: "
+                                android:text=""
                                 android:textColor="@color/status_color"
                                 android:textSize="16sp"
-                                />
+                                android:textStyle="bold"/>
 
                             <TextView
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Time"
@@ -87,7 +79,7 @@
                                 android:textSize="16sp"/>
 
                             <TextView
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="5dp"
                                 android:id="@+id/time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -95,6 +87,62 @@
                                 android:textColor="@color/status_color"
                                 android:textSize="16sp"
                                 />
+
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Shift Name"
+                                android:textStyle="bold"
+                                android:textSize="16sp"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:id="@+id/tv_shift_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/status_color"
+                                android:textSize="16sp"/>
+
+
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="In Time"
+                                android:textStyle="bold"
+                                android:textSize="16sp"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:id="@+id/tv_in_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/status_color"
+                                android:textSize="16sp"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Out Time"
+                                android:textStyle="bold"
+                                android:textSize="16sp"/>
+
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:id="@+id/tv_out_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/status_color"
+                                android:textSize="16sp"/>
+
+
 
 
 
