@@ -8,6 +8,8 @@ public interface ILocationConstants {
      */
     long UPDATE_INTERVAL_IN_MILLISECONDS = 1800000;
 
+//    long UPDATE_INTERVAL_IN_MILLISECONDS = 3000;
+
     /**
      * If accuracy is lesser than 100m , discard it
      */

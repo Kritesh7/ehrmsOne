@@ -3,6 +3,7 @@ package in.co.cfcs.ehrmsone.Interface;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -47,12 +48,10 @@ public class UpdateLocation extends AsyncTask<String,String,String> {
     public UpdateLocation(ArrayList<LocationDataModel> loglist, Context baseContext) {
         this.mContext = baseContext;
         this.loclist = loglist;
-
     }
 
     @Override
     protected String doInBackground(String... strings) {
-
 
         AdminID = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAdminId(mContext)));
         AuthCode = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAuthCode(mContext)));
@@ -115,7 +114,6 @@ public class UpdateLocation extends AsyncTask<String,String,String> {
 
     private void makeJsonLocation() {
 
-
         try {
             Gson gson = new Gson();
             JSONObject jsonObj = new JSONObject();
@@ -125,14 +123,12 @@ public class UpdateLocation extends AsyncTask<String,String,String> {
                 String Lng = loclist.get(i).getLng();
                 String WaitCounter = loclist.get(i).getWaitCounter();
                 String ReportTime = loclist.get(i).getReportTime();
-                LocationdataModelTemp diary = getImageObjectFilled(Lat,Lng,WaitCounter,ReportTime);
+                String Attendancedate1 = loclist.get(i).getAttendancedate();
+                LocationdataModelTemp diary = getImageObjectFilled(Lat,Lng,WaitCounter,ReportTime,Attendancedate1);
                 String case_json1 = gson.toJson(loclist);
                 String case_json = gson.toJson(diary);
                 JSONObject objImg = new JSONObject(case_json);
                 array.put(objImg);
-//                jsonObj.put("members", array);
-                //Log.e("make json size is ", array+" null");
-
             }
             Log.e("make json size is ", " cfcs " + jsonObj.toString());
             LatLngJson = array.toString();
@@ -140,17 +136,16 @@ public class UpdateLocation extends AsyncTask<String,String,String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    private LocationdataModelTemp getImageObjectFilled(String lat, String lng, String waitCounter, String ReportTime) {
+    private LocationdataModelTemp getImageObjectFilled(String lat, String lng, String waitCounter, String ReportTime,String Attendancedate) {
         LocationdataModelTemp bean = new LocationdataModelTemp();
         bean.setLat(lat);
         bean.setLng(lng);
         bean.setWaitCounter(waitCounter);
         bean.setReportTime(ReportTime);
+        bean.setAttendancedate(Attendancedate);
         return bean;
-
     }
 
 }

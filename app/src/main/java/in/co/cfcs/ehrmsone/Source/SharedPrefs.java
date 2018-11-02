@@ -288,5 +288,18 @@ public class SharedPrefs
         return editor.commit();
     }
 
+    public static String getAttendanceDate(Context context)
+    {
+        SharedPreferences sp = getSetting(context);
+        return  sp.getString(SettingConstant.AttendanceDate, null);
+    }
+    public static boolean setAttendanceDate(Context context, String authKey)
+    {
+        SharedPreferences sp = getSetting(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(SettingConstant.AttendanceDate, authKey);
+        return editor.commit();
+    }
+
 
 }

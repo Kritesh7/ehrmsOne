@@ -644,11 +644,10 @@ public class DashBoardFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListenerForToolbar) {
+        try {
             mListener = (OnFragmentInteractionListenerForToolbar) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement onSomeEventListener");
         }
     }
     public interface OnFragmentInteractionListenerForToolbar {
@@ -822,8 +821,6 @@ public class DashBoardFragment extends Fragment {
 
         pieChart.setData(data);
 
-
-
         // undo all highlights
         pieChart.highlightValues(null);
 
@@ -882,7 +879,6 @@ public class DashBoardFragment extends Fragment {
            barColourGroup.add(i, colour);
 
         }
-
 
         BarDataSet set1, set2, set3;
         set1 = new BarDataSet(entriesGroup1, "Entitlements");
@@ -1015,5 +1011,7 @@ public class DashBoardFragment extends Fragment {
             alertDialogBuilder.show();
         }
     }
+
+
 
 }

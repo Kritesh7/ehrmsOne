@@ -247,6 +247,8 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
             window.setStatusBarColor(this.getResources().getColor(R.color.status_color));
         }
 
+        mContext = this;
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.attendancetollbar);
         setSupportActionBar(toolbar);
         titleTxt = (TextView) toolbar.findViewById(R.id.titletxt);
@@ -378,6 +380,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                         pDialog = new ProgressDialog(AttendanceModule.this, R.style.AppCompatAlertDialogStyle);
                         pDialog.setTitle("Mark Attendance");
                         pDialog.setMessage("Please Wait...");
+                        pDialog.setCancelable(false);
                         pDialog.show();
 
                         if (lastLocation != null) {
@@ -403,7 +406,6 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                                     pDialog.dismiss();
                                 } else if (finalIsMock) {
                                     Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
-                                    pDialog.dismiss();
                                     pDialog.dismiss();
                                 } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
                                     Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
@@ -531,6 +533,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                                 ShiftName = jsonObject1.getString("ShiftName").toString();
                                 InOutFlag = jsonObject1.getString("InOutFlag").toString();
 
+
                                 tv_shift_name.setText(ShiftName);
                                 tv_in_time.setText(InTime);
                                 tv_out_time.setText(OutTime);
@@ -652,7 +655,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
         final Button btn_submit_miss_attendance;
         final LinearLayout ll_time_error;
 
-        final android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
+        final android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(mContext);
         LayoutInflater inflater = getLayoutInflater();
         final View convertView = (View) inflater.inflate(R.layout.miss_attendance_popup_layout, null);
         alertDialog.setView(convertView);
@@ -738,6 +741,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                     pDialog = new ProgressDialog(AttendanceModule.this, R.style.AppCompatAlertDialogStyle);
                     pDialog.setTitle("Mark Attendance");
                     pDialog.setMessage("Please Wait...");
+                    pDialog.setCancelable(false);
                     pDialog.show();
 
                     boolean isMock = MockLocationDetector.isLocationFromMockProvider(AttendanceModule.this, lastLocation);
@@ -758,7 +762,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                             } else if (isMock) {
                                 Toast.makeText(AttendanceModule.this, "Mock Location On", Toast.LENGTH_LONG).show();
                                 pDialog.dismiss();
-                                pDialog.dismiss();
+
                             } else if (lastLocation.getLongitude() == 0 || lastLocation.getLongitude() == 0) {
                                 Toast.makeText(AttendanceModule.this, "Please get location", Toast.LENGTH_SHORT).show();
                                 ScanckBar();
@@ -828,6 +832,9 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     public void StopTrackService() {
 
         getBaseContext().stopService(new Intent(this, LocationUpdateService.class));
+
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setAttendanceDate(AttendanceModule.this,
+                "")));
 
     }
 
@@ -1032,11 +1039,13 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     public void onResume() {
         super.onResume();
         try {
+            mContext = this;
             mCamera = Camera.open(1);
             // Add to Framelayout
             mCameraView = new CameraView(this, mCamera);//create a SurfaceView to show camera data
             camera_view.removeAllViews();
             camera_view.addView(mCameraView);
+
 
         } catch (RuntimeException ex) {
 
@@ -1357,7 +1366,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     private GeofencingRequest createGeofenceRequest(Geofence geofence) {
         Log.d(TAG, "createGeofenceRequest");
         return new GeofencingRequest.Builder()
-                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER|GeofencingRequest.INITIAL_TRIGGER_DWELL)
                 .addGeofence(geofence)
                 .build();
     }
@@ -1489,7 +1498,12 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
                                     if (LocationOnOff.compareToIgnoreCase("true") == 0) {
 
+                                        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setAttendanceDate(AttendanceModule.this,
+                                                Attdatetime)));
+
                                         TrackService();
+
+
                                     }
 
                                 } else {
@@ -1506,6 +1520,9 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                                     rd_out.setVisibility(View.GONE);
                                     rd_in.setVisibility(View.VISIBLE);
                                     rd_in.setChecked(true);
+
+                                    UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setAttendanceDate(AttendanceModule.this,
+                                            "")));
 
                                 } else {
 
@@ -1863,7 +1880,6 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                         bm = scaled;
                     }
                 }
-
 
                 imageBase64 = getEncoded64ImageStringFromBitmap(bm);
 

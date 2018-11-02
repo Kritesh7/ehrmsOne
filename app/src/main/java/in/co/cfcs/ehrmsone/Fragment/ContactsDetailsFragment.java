@@ -2,6 +2,7 @@ package in.co.cfcs.ehrmsone.Fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -234,15 +235,13 @@ public class ContactsDetailsFragment extends Fragment {
                             IsVisibilityAdd = obj.getString("IsVisibilityAdd");
 
                             if (IsVisibilityAdd.equalsIgnoreCase("3")) {
-                                fab.setVisibility(View.GONE);
+                                fab.hide();
                             } else {
-                                fab.setVisibility(View.VISIBLE);
+                                fab.show();
                             }
                         }
 
-
                     }
-
 
                     if (list.size() == 0) {
                         noCust.setVisibility(View.VISIBLE);
@@ -339,12 +338,12 @@ public class ContactsDetailsFragment extends Fragment {
     }*/
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement onSomeEventListener");
+            throw new ClassCastException(context.toString() + " must implement onSomeEventListener");
         }
     }
 

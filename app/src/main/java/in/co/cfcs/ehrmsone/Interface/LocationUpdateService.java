@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,6 +28,8 @@ import java.util.List;
 import in.co.cfcs.ehrmsone.Main.AttendanceModule;
 import in.co.cfcs.ehrmsone.R;
 import in.co.cfcs.ehrmsone.Source.ConnectionDetector;
+import in.co.cfcs.ehrmsone.Source.SharedPrefs;
+import in.co.cfcs.ehrmsone.Source.UtilsMethods;
 
 
 public class LocationUpdateService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, ILocationConstants {
@@ -79,6 +82,7 @@ public class LocationUpdateService extends Service implements GoogleApiClient.Co
 
 
     int serviceID = 0;
+
 
     @Override
     public void onCreate() {
@@ -186,6 +190,7 @@ public class LocationUpdateService extends Service implements GoogleApiClient.Co
 
             String DateTime = stringDate + " " + mLastUpdateTime;
 
+            String  AttendanceDateReport = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAttendanceDate(this)));
 
             DecimalFormat numberFormat = new DecimalFormat("#.0000");
 
@@ -209,13 +214,14 @@ public class LocationUpdateService extends Service implements GoogleApiClient.Co
                     locaDataModel.setLng(String.valueOf(UpdateLocationLong));
                     locaDataModel.setWaitCounter(String.valueOf(count));
                     locaDataModel.setReportTime(DateTime);
+                    locaDataModel.setAttendancedate(AttendanceDateReport);
                     locationDataModels.add(locaDataModel);
 
                     if (locationDataModels.size() > 0) {
 
                         new UpdateLocation(locationDataModels, getBaseContext()).execute();
 
-                        //     Toast.makeText(getBaseContext(),"currentLatRound == 0 && currentLogRound == 0 and internet find"+ locationDataModels.size(), Toast.LENGTH_LONG).show();
+                     //     Toast.makeText(getBaseContext(),"currentLatRound == 0 && currentLogRound == 0 and internet find"+ locationDataModels + AttendanceDateReport, Toast.LENGTH_LONG).show();
 
                         count = 0;
                         oldLocation.setLatitude(UpdateLocationLat);
@@ -230,6 +236,7 @@ public class LocationUpdateService extends Service implements GoogleApiClient.Co
                     locaDataModel1.setLng(String.valueOf(UpdateLocationLong));
                     locaDataModel1.setWaitCounter(String.valueOf(count));
                     locaDataModel1.setReportTime(DateTime);
+                    locaDataModel1.setAttendancedate(AttendanceDateReport);
                     locationDataModels.add(locaDataModel1);
 
                     count = 0;
@@ -255,6 +262,7 @@ public class LocationUpdateService extends Service implements GoogleApiClient.Co
                     locaDataModel2.setLng(String.valueOf(UpdateLocationLong));
                     locaDataModel2.setWaitCounter(String.valueOf(count));
                     locaDataModel2.setReportTime(DateTime);
+                    locaDataModel2.setAttendancedate(AttendanceDateReport);
                     locationDataModels.add(locaDataModel2);
 
                     if (locationDataModels.size() > 0) {
@@ -277,6 +285,7 @@ public class LocationUpdateService extends Service implements GoogleApiClient.Co
                     locaDataModel3.setLng(String.valueOf(UpdateLocationLong));
                     locaDataModel3.setWaitCounter(String.valueOf(count));
                     locaDataModel3.setReportTime(DateTime);
+                    locaDataModel3.setAttendancedate(AttendanceDateReport);
                     locationDataModels.add(locaDataModel3);
 
                     count = 0;
@@ -344,15 +353,12 @@ public class LocationUpdateService extends Service implements GoogleApiClient.Co
     public void onConnected(Bundle connectionHint) throws SecurityException {
         Log.i(TAG, "Connected to GoogleApiClient");
 
-
         if (mCurrentLocation == null) {
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
             //   updateUI(oldLocation);
         }
-
         startLocationUpdates();
-
     }
 
     /**

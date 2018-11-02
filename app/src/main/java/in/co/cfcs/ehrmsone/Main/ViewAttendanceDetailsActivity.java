@@ -435,8 +435,7 @@ public class ViewAttendanceDetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         super.onBackPressed();
-        overridePendingTransition(R.anim.push_left_in,
-                R.anim.push_right_out);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_right_out);
 
     }
 

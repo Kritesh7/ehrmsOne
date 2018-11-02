@@ -11,6 +11,8 @@ public class LocationDataModel {
 
     public String ReportTime;
 
+    public String Attendancedate;
+
     public String getLat() {
         return Lat;
     }
@@ -41,6 +43,14 @@ public class LocationDataModel {
 
     public void setReportTime(String reportTime) {
         this.ReportTime = reportTime;
+    }
+
+    public String getAttendancedate() {
+        return Attendancedate;
+    }
+
+    public void setAttendancedate(String attendancedate) {
+        this.Attendancedate = attendancedate;
     }
 
 }

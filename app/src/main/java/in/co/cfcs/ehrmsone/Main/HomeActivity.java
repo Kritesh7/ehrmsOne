@@ -1,7 +1,9 @@
 package in.co.cfcs.ehrmsone.Main;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -168,6 +170,15 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
     String currentVersion = null;
 
+    Fragment newFragment;
+
+    //Boolean variable to mark if the transaction is safe
+    private boolean isTransactionSafe;
+    //Boolean variable to mark if there is any transaction pending
+    private boolean isTransactionPending;
+
+    FragmentTransaction transaction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +191,8 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.status_color));
         }
+
+         transaction = getSupportFragmentManager().beginTransaction();
 
         userId = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAdminId(HomeActivity.this)));
         authCode = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAuthCode(HomeActivity.this)));
@@ -196,7 +209,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
         drawerLayout = (DrawerLayout) findViewById(R.id.home_drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.home_navigation);
-
 
         //     headeLay = (RelativeLayout) navigationView.findViewById(R.id.view_container) ;
 
@@ -292,17 +304,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
             conn.showNoInternetAlret();
         }
 
-//        String type = getIntent().getStringExtra("From");
-//        if (type != null) {
-//            switch (type) {
-//                case "notifyFrag":
-//                    Fragment fragment = new ManagerDashBoardFragment();
-//                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.container, fragment).commit();
-//                    break;
-//            }
-//        }
-
     }
 
     //Start Notification
@@ -323,14 +324,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         //Toast.makeText(this, "Cancelled alarm", Toast.LENGTH_SHORT).show();
     }
 
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-
-        //count the notification
-        //call API
-        getCount(authCode,userId);
-    }*/
 
     private void loadPhoto(ImageView imageView, int width, int height) {
 
@@ -687,862 +680,810 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         navigationView.getMenu().getItem(navigationItemIndex).setChecked(true);
     }
 
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+
+    }
+
+    public void onPostResume() {
+        super.onPostResume();
+        isTransactionSafe = true;
+       // Toast.makeText(this, "OnPostResume", Toast.LENGTH_LONG).show();
+        if (isTransactionPending) {
+            commitFragment();
+        }
+    }
+
+    public void onPause() {
+        super.onPause();
+        isTransactionSafe = false;
+       // Toast.makeText(this, "OnPause", Toast.LENGTH_LONG).show();
+    }
+
+
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("savIndex", String.valueOf(navigationItemIndex));
+        outState.putString("Tag", CURRENT_TAG);
+      //  Toast.makeText(this, "Left", Toast.LENGTH_LONG).show();
+
+    }
+//    public void onRestoreInstanceState(Bundle inState){
+//        super.onRestoreInstanceState(inState);
+//        navigationItemIndex = Integer.parseInt(inState.getString("savIndex"));
+//        CURRENT_TAG = inState.getString("Tag");
+//        Toast.makeText(this,"Right",Toast.LENGTH_LONG).show();
+//
+//    }
+
+    private void commitFragment() {
+
+            newFragment = new DashBoardFragment();
+            newFragment.setArguments(bundle);
+            transaction.replace(R.id.home_navigation_framelayout, newFragment);
+            transaction.setCustomAnimations(
+                    R.anim.push_right_in,
+                    R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+//            DashBoardFragment myFragment = new DashBoardFragment();
+//            FragmentManager fragmentManager = getFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.add(R.id.frame, myFragment);
+//            fragmentTransaction.commit();
+            isTransactionPending = false;
+
+    }
+
     private Fragment getHomeFragment() {
 
-        Fragment newFragment;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Log.e("checked postion", navigationItemIndex + " null");
-        switch (navigationItemIndex) {
-            case 0:
-                // home
-              /*  DashBoardFragment dashboard = new DashBoardFragment();
-                return dashboard;*/
 
-             /*   ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
-                        // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                        super.onDrawerClosed(drawerView);
-                    }
-                    @Override
-                    public void onDrawerOpened(View drawerView) {
-                        // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-                        super.onDrawerOpened(drawerView);
-                    }
-                };
-                //Setting the actionbarToggle to drawer layout
-                drawerLayout.setDrawerListener(actionBarDrawerToggle);
-*/
-                newFragment = new DashBoardFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
+        if (isTransactionSafe) {
 
-               /* DashBoardFragment dashboard = new DashBoardFragment();
-                return dashboard;*/
-
-            case 1:
-                //drawer.closeDrawers();
-                // movies fragment
-                /*  PayoutsListFragment payoutsListFragment = new PayoutsListFragment();*/
-
-               /* getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                getSupportActionBar().setDisplayShowHomeEnabled(true);*/
-
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
+            switch (navigationItemIndex) {
+                case 0:
+                    newFragment = new DashBoardFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
 
 
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
+                case 1:
 
-                    }
-                });
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
 
 
-                newFragment = new AttendaceListFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
 
-            case 2:
+                        }
+                    });
+
+                    newFragment = new AttendaceListFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 2:
 
               /*  if (getSupportActionBar() != null){
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setDisplayShowHomeEnabled(true);
                 }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new LeaveManagementFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-               /* FollowUpFragment followUpFragment = new FollowUpFragment();
-                return followUpFragment;*/
-
-           /* case 3:
-
-                newFragment = new TrainingFragment();
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment ;*/
-
-
-           /* ChatFragment chatFragment = new ChatFragment();
-                return chatFragment;*/
-
-            case 4:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new AssestDetailsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 5:
-/*
-                if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new ChnagePasswordFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 6:
-
-              /*  if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new PersonalDetailsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 7:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new MedicalDetailsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 8:
-
-                /*if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new OfficeallyDetailsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 9:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new ContactsDetailsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 10:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new EmergencyContactsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 11:
-
-              /*  if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new DependnetsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 12:
-
-              /*  if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new MedicalAndEnsuranceFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 13:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new EducationDetailsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 14:
-
-              /*  if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new PreviousExprienceFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 15:
-
-             /*   if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new LanguagesFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 16:
-/*
-                if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new SkillsFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 17:
-
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new LeaveSummarryFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 18:
-
-
-              /*  if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-                newFragment = new StationaryRequestFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 19:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new DocumentListFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 20:
-
-              /*  if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new TaxiListFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 21:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new HotelBookingListFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 23:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new ShortLeaveHistoryFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 24:
-
-              /*  if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new WeekOfListFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 25:
-/*
-                if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new HolidayListFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 26:
-
-                /*if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new ContactPhoneFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 27:
-
-                /*if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new ManagerDashBoardFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 28:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-                newFragment = new AttendanceLogListFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-            case 29:
-
-               /* if (getSupportActionBar() != null){
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setDisplayShowHomeEnabled(true);
-                }*/
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toolbar.setNavigationIcon(R.drawable.backimg);
-
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // onBackPressed();
-                        onBackPressed();
-
-                    }
-                });
-
-
-                newFragment = new MyProfileFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
-
-
-            default:
-
-                newFragment = new DashBoardFragment();
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.home_navigation_framelayout, newFragment);
-                transaction.setCustomAnimations(
-                        R.anim.push_right_in,
-                        R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                return newFragment;
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new LeaveManagementFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+
+                case 4:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new AssestDetailsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 5:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new ChnagePasswordFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 6:
+
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new PersonalDetailsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 7:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new MedicalDetailsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 8:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new OfficeallyDetailsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 9:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new ContactsDetailsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 10:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new EmergencyContactsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 11:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new DependnetsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 12:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new MedicalAndEnsuranceFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 13:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new EducationDetailsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 14:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new PreviousExprienceFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 15:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new LanguagesFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 16:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new SkillsFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 17:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new LeaveSummarryFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 18:
+
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+                    newFragment = new StationaryRequestFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 19:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new DocumentListFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 20:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new TaxiListFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 21:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new HotelBookingListFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 23:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new ShortLeaveHistoryFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 24:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new WeekOfListFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 25:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new HolidayListFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 26:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new ContactPhoneFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 27:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new ManagerDashBoardFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 28:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+                    newFragment = new AttendanceLogListFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+                case 29:
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.setNavigationIcon(R.drawable.backimg);
+
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // onBackPressed();
+                            onBackPressed();
+
+                        }
+                    });
+
+
+                    newFragment = new MyProfileFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+
+
+                default:
+
+                    newFragment = new DashBoardFragment();
+                    newFragment.setArguments(bundle);
+                    transaction.replace(R.id.home_navigation_framelayout, newFragment);
+                    transaction.setCustomAnimations(
+                            R.anim.push_right_in,
+                            R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTransactionPending = false;
+                    return newFragment;
+            }
+
+
+        }else {
+            isTransactionPending = true;
         }
+
+        return newFragment;
     }
 
     @Override
@@ -1634,6 +1575,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
         final ProgressDialog pDialog = new ProgressDialog(HomeActivity.this, R.style.AppCompatAlertDialogStyle);
         pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
         pDialog.show();
 
         StringRequest historyInquiry = new StringRequest(
@@ -1747,6 +1689,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
         final ProgressDialog pDialog = new ProgressDialog(HomeActivity.this, R.style.AppCompatAlertDialogStyle);
         pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
         pDialog.show();
 
         StringRequest historyInquiry = new StringRequest(
@@ -1805,11 +1748,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                             getBaseContext().stopService(new Intent(HomeActivity.this, LocationUpdateService.class));
 
-//                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-//                            startActivity(intent);
-//                            overridePendingTransition(R.anim.push_left_in,
-//                                    R.anim.push_right_out);
-//                            finish();
 
                         } else {
 
@@ -1818,8 +1756,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                             navigationItemIndex = 22;
 
-//                            Intent ik = new Intent(getApplicationContext(), LoginActivity.class);
-//                            startActivity(ik);
 
                             finishAffinity();
                             startActivity(new Intent(getBaseContext(), LoginActivity.class));
