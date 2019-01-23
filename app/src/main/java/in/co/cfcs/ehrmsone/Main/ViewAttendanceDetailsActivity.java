@@ -101,7 +101,6 @@ public class ViewAttendanceDetailsActivity extends AppCompatActivity {
             attendaceLogId = intent.getStringExtra("AttendnaceLogId");
             // isRequest = intent.getStringExtra("Visibile");
 
-
         }
 
         conn = new ConnectionDetector(ViewAttendanceDetailsActivity.this);
@@ -120,7 +119,6 @@ public class ViewAttendanceDetailsActivity extends AppCompatActivity {
         earlyLeavingTxt = (TextView) findViewById(R.id.earlylearning);
         statusTxt = (TextView) findViewById(R.id.status);
         empIdTxt = (TextView) findViewById(R.id.empid);
-
 
         if (conn.getConnectivityStatus() > 0) {
             viewDetails(authcode, userId, attendaceLogId);
@@ -228,17 +226,6 @@ public class ViewAttendanceDetailsActivity extends AppCompatActivity {
                             popupWindow.dismiss();
                         }
                     }
-//                    if (jsonObject.has("status")) {
-//                        String status = jsonObject.getString("status");
-//
-//                        if (status.equalsIgnoreCase("success")) {
-//
-//                            String MsgNotification = jsonObject.getString("MsgNotification");
-//
-//                            Toast.makeText(ViewAttendanceDetailsActivity.this, MsgNotification, Toast.LENGTH_SHORT).show();
-//                            popupWindow.dismiss();
-//                        }
-//                    }
                     pDialog.dismiss();
 
                 } catch (JSONException e) {

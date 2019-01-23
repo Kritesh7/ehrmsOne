@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -56,6 +57,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import in.co.cfcs.ehrmsone.Fragment.AssestDetailsFragment;
 import in.co.cfcs.ehrmsone.Fragment.AttendaceListFragment;
@@ -177,6 +179,8 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
     //Boolean variable to mark if there is any transaction pending
     private boolean isTransactionPending;
 
+    public Bundle savebundle;
+
     FragmentTransaction transaction;
 
 
@@ -203,7 +207,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         setSupportActionBar(toolbar);
         titleTxt = (TextView) toolbar.findViewById(R.id.titletxt);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         mHandeler = new Handler();
 
@@ -320,7 +324,9 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         Intent intent = new Intent(this, NotificationBroadCast.class);
         PendingIntent sender = PendingIntent.getBroadcast(this, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
+        if (alarmManager != null) {
+            alarmManager.cancel(sender);
+        }
         //Toast.makeText(this, "Cancelled alarm", Toast.LENGTH_SHORT).show();
     }
 
@@ -340,7 +346,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         croosImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 dialog.dismiss();
             }
         });
@@ -360,7 +365,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
                     //Replacing the main content with ContentFragment Which is our Inbox View;
@@ -505,7 +510,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                         navigationItemIndex = 15;
                         CURRENT_TAG = TAG_Employ_Languages;
                         titleTxt.setText("Language");
-
                         break;
 
                     case R.id.nav_skills:
@@ -513,7 +517,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                         navigationItemIndex = 16;
                         CURRENT_TAG = TAG_Employ_Skills;
                         titleTxt.setText("Skills");
-
                         break;
 
                     case R.id.nav_leavesummary:
@@ -604,7 +607,8 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                     case R.id.nav_logout:
 
                         //Logout API
-                        getLogout(userId, authCode);
+                       // getLogout(userId, authCode);
+                        Logout();
                         break;
 
 
@@ -691,7 +695,18 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         isTransactionSafe = true;
        // Toast.makeText(this, "OnPostResume", Toast.LENGTH_LONG).show();
         if (isTransactionPending) {
-            commitFragment();
+
+         //   commitFragment();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    commitFragment();
+                }
+            }, 1000);
+
         }
     }
 
@@ -704,36 +719,23 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("savIndex", String.valueOf(navigationItemIndex));
-        outState.putString("Tag", CURRENT_TAG);
       //  Toast.makeText(this, "Left", Toast.LENGTH_LONG).show();
+        outState.putBundle("Savebundle",bundle);
 
     }
-//    public void onRestoreInstanceState(Bundle inState){
-//        super.onRestoreInstanceState(inState);
-//        navigationItemIndex = Integer.parseInt(inState.getString("savIndex"));
-//        CURRENT_TAG = inState.getString("Tag");
-//        Toast.makeText(this,"Right",Toast.LENGTH_LONG).show();
-//
-//    }
+    public void onRestoreInstanceState(Bundle inState){
+        super.onRestoreInstanceState(inState);
+
+        savebundle = inState.getBundle("Savebundle");
+
+    }
 
     private void commitFragment() {
 
-            newFragment = new DashBoardFragment();
-            newFragment.setArguments(bundle);
-            transaction.replace(R.id.home_navigation_framelayout, newFragment);
-            transaction.setCustomAnimations(
-                    R.anim.push_right_in,
-                    R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);
-            transaction.addToBackStack(null);
-            transaction.commit();
-
-//            DashBoardFragment myFragment = new DashBoardFragment();
-//            FragmentManager fragmentManager = getFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.add(R.id.frame, myFragment);
-//            fragmentTransaction.commit();
-            isTransactionPending = false;
+        Fragment fragment = new DashBoardFragment();
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_navigation_framelayout, fragment).addToBackStack(null).commit();
+        isTransactionPending = false;
 
     }
 
@@ -757,10 +759,9 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                     isTransactionPending = false;
                     return newFragment;
 
-
                 case 1:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
 
@@ -790,7 +791,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     getSupportActionBar().setDisplayShowHomeEnabled(true);
                 }*/
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -817,7 +818,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 4:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -843,7 +844,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 5:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -869,8 +870,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 6:
 
-
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -896,7 +896,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 7:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -922,7 +922,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 8:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -948,7 +948,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 9:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -974,7 +974,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 10:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1000,7 +1000,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 11:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1008,7 +1008,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                         public void onClick(View v) {
                             // onBackPressed();
                             onBackPressed();
-
                         }
                     });
 
@@ -1026,7 +1025,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 12:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1052,7 +1051,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 13:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1078,7 +1077,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 14:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1104,7 +1103,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 15:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1129,7 +1128,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                     return newFragment;
 
                 case 16:
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1155,7 +1154,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 17:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1182,7 +1181,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                 case 18:
 
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1207,7 +1206,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 19:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1218,7 +1217,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                         }
                     });
-
 
                     newFragment = new DocumentListFragment();
                     newFragment.setArguments(bundle);
@@ -1232,7 +1230,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                     return newFragment;
 
                 case 20:
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1258,7 +1256,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 21:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1284,7 +1282,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 23:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1310,7 +1308,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 24:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1336,7 +1334,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 25:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1362,7 +1360,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 26:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1388,7 +1386,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 27:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1414,7 +1412,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 28:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1439,7 +1437,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                 case 29:
 
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
                     toolbar.setNavigationIcon(R.drawable.backimg);
 
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1544,7 +1542,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
             @Override
             public void onClick(View view) {
 
-
                Fragment newFragment = new ManagerDashBoardFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 newFragment.setArguments(bundle);
@@ -1555,19 +1552,11 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                 transaction.addToBackStack(null);
                 transaction.commit();
                 titleTxt.setText("Manager Dashboard");
-//                Intent intent = new Intent(HomeActivity.this, ManagerRequestToApproveActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.push_right_in, R.anim.push_left_out);
             }
         });
         return super.onCreateOptionsMenu(menu);
 
-        //getMenuInflater().inflate(R.menu.count_menu, menu);
 
-        // MenuItem menuItem = menu.findItem(R.id.menu_messages);
-        //menuItem.setIcon(buildCounterDrawable(count, R.drawable.ic_menu_gallery));
-
-        //return true;
     }
 
     //show  count api
@@ -1593,7 +1582,8 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                         if (jsonObject.has("MsgNotification")) {
                             String MsgNotification = jsonObject.getString("MsgNotification");
                             Toast.makeText(HomeActivity.this, MsgNotification, Toast.LENGTH_LONG).show();
-                            getLogout(userId, authCode);
+//                            getLogout(userId, authCode);
+                            Logout();
                         } else {
 
                             String LeaveCount = jsonObject.getString("LeaveCount");
@@ -1709,17 +1699,11 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
 
                         if (status.equalsIgnoreCase("success")) {
 
-                            navigationItemIndex = 22;
-
-//                            Intent ik = new Intent(getApplicationContext(), LoginActivity.class);
-//                            startActivity(ik);
-//                            overridePendingTransition(R.anim.push_left_in,
-//                                    R.anim.push_right_out);
-//                            finish();
+                         //   navigationItemIndex = 22;
 
                             finishAffinity();
                             startActivity(new Intent(getBaseContext(), LoginActivity.class));
-                            overridePendingTransition(R.anim.push_left_in,
+                               overridePendingTransition(R.anim.push_left_in,
                                     R.anim.push_right_out);
 
                             UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setStatus(HomeActivity.this,
@@ -1754,7 +1738,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                             String MsgNotification = jsonObject.getString("MsgNotification");
                             Toast.makeText(HomeActivity.this, MsgNotification, Toast.LENGTH_SHORT).show();
 
-                            navigationItemIndex = 22;
+                          //  navigationItemIndex = 22;
 
 
                             finishAffinity();
@@ -1789,18 +1773,9 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                             //cancel background services
                             cancelAlarm();
 
-
-//                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-//                            startActivity(intent);
-//                            overridePendingTransition(R.anim.push_left_in,
-//                                    R.anim.push_right_out);
-//                            finish();
                         }
-
-
-                        CURRENT_TAG = TAG_Employ_Logout;
-                        titleTxt.setText("Log Out");
-
+//                        CURRENT_TAG = TAG_Employ_Logout;
+//                        titleTxt.setText("Log Out");
                     }
 
                     pDialog.dismiss();
@@ -1840,8 +1815,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                             Toast.LENGTH_LONG).show();
                 }
                 pDialog.dismiss();
-
-
             }
         }) {
             @Override
@@ -1849,8 +1822,6 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("AdminID", AdminID);
                 params.put("AuthCode", AuthCode);
-
-
                 Log.e("Parms", params.toString());
                 return params;
             }
@@ -1860,6 +1831,32 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(historyInquiry, "Login");
+    }
+
+
+    private void Logout() {
+
+        finishAffinity();
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setStatus(HomeActivity.this,
+                "")));
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setAdminId(HomeActivity.this,
+                "")));
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setAuthCode(HomeActivity.this,
+                "")));
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setEmailId(HomeActivity.this,
+                "")));
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setUserName(HomeActivity.this,
+                "")));
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setEmpId(HomeActivity.this,
+                "")));
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setEmpPhoto(HomeActivity.this,
+                "")));
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setDesignation(HomeActivity.this,
+                "")));
+        UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setCompanyLogo(HomeActivity.this,
+                "")));
 
     }
 
@@ -1871,7 +1868,7 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         titleTxt.setText(Title);
 
         if (navigationItemIndex != 0) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
             toolbar.setNavigationIcon(R.drawable.backimg);
 
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -1884,20 +1881,24 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
         }
 
         //check notification count
-         if (!countstr.equalsIgnoreCase("" ) || !countstr.equalsIgnoreCase("null")) {
-        int co = Integer.parseInt(countstr);
-        if (co > 0) {
+        if(countstr != null){
+            if (!countstr.equalsIgnoreCase("" ) && !countstr.equalsIgnoreCase("null")) {
+                int co = Integer.parseInt(countstr);
+                if (co > 0) {
 
-            itemMessagesBadgeTextView.setVisibility(View.VISIBLE);
-            itemMessagesBadgeTextView.setText(countstr + "");
+                    itemMessagesBadgeTextView.setVisibility(View.VISIBLE);
 
-        } else {
+                    itemMessagesBadgeTextView.setText(countstr + "");
 
-                itemMessagesBadgeTextView.setVisibility(View.GONE);
+                }
+//                else {
+//
+//                    itemMessagesBadgeTextView.setVisibility(View.GONE);
+//                }
+
+            }
 
         }
-
-          }
 
     }
 
@@ -1905,21 +1906,25 @@ public class HomeActivity extends AppCompatActivity implements DashBoardFragment
     public void onFragmentInteraction(String count) {
 
         //  countinOne = count;
+        if(count != null){
+            if (!count.equalsIgnoreCase("") && !count.equalsIgnoreCase("null")) {
+                int co = Integer.parseInt(count);
+                if (co > 0) {
 
-        if (!count.equalsIgnoreCase("") || !count.equalsIgnoreCase("null")) {
-            int co = Integer.parseInt(count);
-            if (co > 0) {
+                    itemMessagesBadgeTextView.setVisibility(View.VISIBLE);
+                    itemMessagesBadgeTextView.setText(count + "");
 
-                itemMessagesBadgeTextView.setVisibility(View.VISIBLE);
-                itemMessagesBadgeTextView.setText(count + "");
-
-            } else {
-
-                    itemMessagesBadgeTextView.setVisibility(View.GONE);
+                }
+//                else {
+//
+//                    itemMessagesBadgeTextView.setVisibility(View.GONE);
+//
+//                }
 
             }
 
         }
+
 
     }
 

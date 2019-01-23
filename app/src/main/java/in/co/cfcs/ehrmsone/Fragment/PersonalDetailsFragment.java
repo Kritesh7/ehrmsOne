@@ -8,12 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -49,6 +49,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import in.co.cfcs.ehrmsone.Main.LoginActivity;
 import in.co.cfcs.ehrmsone.Model.NationnalityModel;
@@ -105,6 +106,7 @@ public class PersonalDetailsFragment extends Fragment {
     String LoginStatus;
     String invalid = "loginfailed";
     String msgstatus;
+    String strtext="0";
 
     public PersonalDetailsFragment() {
         // Required empty public constructor
@@ -138,13 +140,18 @@ public class PersonalDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_personal_details, container, false);
 
-        String strtext = getArguments().getString("Count");
-        Log.e("checking count", strtext + " null");
+        if (getArguments() != null) {
+            strtext = getArguments().getString("Count");
+        }
+        if(strtext == null){
+
+            strtext ="0";
+        }
 
         mListener.onFragmentInteraction(strtext);
 
@@ -246,12 +253,6 @@ public class PersonalDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-
-                InputMethodManager inputManager = (InputMethodManager) getActivity().
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
                 // Get Current Date
                 final Calendar c = Calendar.getInstance();
                 mYear = c.get(Calendar.YEAR);
@@ -902,11 +903,9 @@ public class PersonalDetailsFragment extends Fragment {
     private void Logout() {
 
 
-        getActivity().finishAffinity();
+        Objects.requireNonNull(getActivity()).finishAffinity();
         startActivity(new Intent(getContext(), LoginActivity.class));
 
-//        Intent ik = new Intent(ManagerRequestToApproveActivity.this, LoginActivity.class);
-//        startActivity(ik);
 
 
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setStatus(getContext(),

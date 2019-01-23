@@ -160,8 +160,6 @@ public class LeaveMangementAdapter extends RecyclerView.Adapter<LeaveMangementAd
             view = (View) itemView.findViewById(R.id.view2);
             empNameTxt = (TextView) itemView.findViewById(R.id.leave_user);
             mainLay = (LinearLayout) itemView.findViewById(R.id.leave_management_main_lay);
-
-
         }
     }
 

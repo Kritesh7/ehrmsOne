@@ -95,6 +95,7 @@ public class ManagerDashBoardFragment extends Fragment {
     String LoginStatus;
     String invalid = "loginfailed";
     String msgstatus;
+    String strtext ="0";
 
     public String countUrl = SettingConstant.BaseUrl + "AppManagerRequestToApproveDashBoard";
     public String countUrl1 = SettingConstant.BaseUrl + "AppManagerProceededRequestDashBoard";
@@ -131,13 +132,18 @@ public class ManagerDashBoardFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_manager_dash_board, container, false);
 
-        String strtext = getArguments().getString("Count");
-        Log.e("checking count", strtext + " null");
+        if (getArguments() != null) {
+            strtext = getArguments().getString("Count");
+        }
+        if(strtext == null){
+
+            strtext ="0";
+        }
 
         mListener.onFragmentInteraction(strtext);
 

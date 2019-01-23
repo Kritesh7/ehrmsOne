@@ -16,37 +16,6 @@ public class SharedPrefs
         return sp;
     }
 
-    // vechiel type shared
-    public static String getVechileType(Context context)
-    {
-        SharedPreferences sp = getSetting(context);
-        return  sp.getString(SettingConstant.VechelType, null);
-    }
-    public static boolean setVechileType(Context context, String authKey)
-    {
-        SharedPreferences sp = getSetting(context);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(SettingConstant.VechelType, authKey);
-        return editor.commit();
-    }
-
-
-
-
-    //Source Address
-    public static String getSourceAddress(Context context)
-    {
-        SharedPreferences sp = getSetting(context);
-        return  sp.getString(SettingConstant.SourceAddress, null);
-    }
-    public static boolean setSourceAddress(Context context, String authKey)
-    {
-        SharedPreferences sp = getSetting(context);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(SettingConstant.SourceAddress, authKey);
-        return editor.commit();
-    }
-
     // User is Shared preference
     public static String getAdminId(Context context)
     {
@@ -75,7 +44,6 @@ public class SharedPrefs
         editor.putString(SettingConstant.AuthCode, authKey);
         return editor.commit();
     }
-
 
 
     //status Refrence--------------------

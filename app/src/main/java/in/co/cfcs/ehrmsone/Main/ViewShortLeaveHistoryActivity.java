@@ -126,7 +126,6 @@ public class ViewShortLeaveHistoryActivity extends AppCompatActivity {
     //view Details Api
     public void viewDetails(final String AuthCode, final String LeaveApplicationID, final String userId) {
 
-
         final ProgressDialog pDialog = new ProgressDialog(ViewShortLeaveHistoryActivity.this, R.style.AppCompatAlertDialogStyle);
         pDialog.setCancelable(false);
         pDialog.setMessage("Loading...");
@@ -222,8 +221,6 @@ public class ViewShortLeaveHistoryActivity extends AppCompatActivity {
                             managerNameTxt.setText(FullNameManager);
                             managerCommentTxt.setText(ManagerComment);
                             shortLeaveDateTxt.setText(leaveDate);
-
-
                         }
                     }
 
@@ -264,8 +261,6 @@ public class ViewShortLeaveHistoryActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
                 pDialog.dismiss();
-
-
             }
         }) {
             @Override
@@ -301,13 +296,8 @@ public class ViewShortLeaveHistoryActivity extends AppCompatActivity {
 
     private void Logout() {
 
-
         finishAffinity();
         startActivity(new Intent(ViewShortLeaveHistoryActivity.this, LoginActivity.class));
-
-//        Intent ik = new Intent(ManagerRequestToApproveActivity.this, LoginActivity.class);
-//        startActivity(ik);
-
 
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setStatus(ViewShortLeaveHistoryActivity.this,
                 "")));
@@ -321,19 +311,12 @@ public class ViewShortLeaveHistoryActivity extends AppCompatActivity {
                 "")));
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setEmpId(ViewShortLeaveHistoryActivity.this,
                 "")));
-
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setEmpPhoto(ViewShortLeaveHistoryActivity.this,
                 "")));
-
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setDesignation(ViewShortLeaveHistoryActivity.this,
                 "")));
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setCompanyLogo(ViewShortLeaveHistoryActivity.this,
                 "")));
-
-//        Intent intent = new Intent(NewAddLeaveMangementActivity.this, LoginActivity.class);
-//        startActivity(intent);
-//        finish();
-
 
     }
 

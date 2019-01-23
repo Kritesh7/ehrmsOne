@@ -41,8 +41,6 @@
                         android:textSize="16sp"
                         android:textColor="@color/purple700"/>
 
-
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -90,13 +88,6 @@
                         android:textSize="16sp"
                         android:textColor="@color/purple700"/>
 
-                    <!--<Spinner-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:id="@+id/leavetypespinner"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-
-                    <!--</Spinner>-->
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -207,7 +198,7 @@
                                 android:clickable="true"
                                 android:drawablePadding="10dp"
                                 android:editable="false"
-                                android:hint="Start Date"
+                                android:hint="End Date"
                                 android:layout_marginLeft="2dp"/>
 
                         </LinearLayout>

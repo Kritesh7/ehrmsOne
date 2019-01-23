@@ -140,11 +140,6 @@ public class StatinaryRequestAdapter extends RecyclerView.Adapter<StatinaryReque
         });
 
 
-
-
-
-
-
     }
 
     public void remove(int position) {

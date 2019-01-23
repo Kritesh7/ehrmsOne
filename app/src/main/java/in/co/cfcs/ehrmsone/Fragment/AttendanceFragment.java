@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import in.co.cfcs.ehrmsone.Main.ShoweRouteLocation;
 import in.co.cfcs.ehrmsone.R;
@@ -105,7 +107,7 @@ public class AttendanceFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_attendance, container, false);
@@ -139,7 +141,7 @@ public class AttendanceFragment extends Fragment implements OnMapReadyCallback {
 
                 Intent i = new Intent(getActivity(), ShoweRouteLocation.class);
                 startActivity(i);
-                getActivity().overridePendingTransition(R.anim.push_right_in, R.anim.push_left_out);
+                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.push_right_in, R.anim.push_left_out);
 
             }
         });
@@ -249,7 +251,6 @@ public class AttendanceFragment extends Fragment implements OnMapReadyCallback {
     private class GeocoderHandler extends Handler {
         @Override
         public void handleMessage(Message message) {
-
 
             switch (message.what) {
                 case 1:

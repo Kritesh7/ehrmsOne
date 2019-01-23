@@ -244,7 +244,6 @@ public class ManagerRequestToApprovedShortLeaveAdapter extends RecyclerView.Adap
                         }
                     }
 
-
             }
         });
 
@@ -287,8 +286,6 @@ public class ManagerRequestToApprovedShortLeaveAdapter extends RecyclerView.Adap
                             Toast.makeText(context, MsgNotification, Toast.LENGTH_SHORT).show();
                         }
                     }
-
-
                     pDialog.dismiss();
 
                 } catch (JSONException e) {
@@ -301,10 +298,8 @@ public class ManagerRequestToApprovedShortLeaveAdapter extends RecyclerView.Adap
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("Login", "Error: " + error.getMessage());
                 // Log.e("checking now ",error.getMessage());
-
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 pDialog.dismiss();
-
 
             }
         }){
@@ -318,7 +313,6 @@ public class ManagerRequestToApprovedShortLeaveAdapter extends RecyclerView.Adap
                 params.put("Type",type);
                 params.put("Status",status);
 
-
                 Log.e("Parms", params.toString());
                 return params;
             }
@@ -328,7 +322,6 @@ public class ManagerRequestToApprovedShortLeaveAdapter extends RecyclerView.Adap
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(historyInquiry, "Login");
-
     }
 
     //remove list

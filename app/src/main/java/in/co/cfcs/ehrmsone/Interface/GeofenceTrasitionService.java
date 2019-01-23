@@ -19,6 +19,7 @@ import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import in.co.cfcs.ehrmsone.Main.AttendanceModule;
 import in.co.cfcs.ehrmsone.R;
@@ -112,11 +113,10 @@ public class GeofenceTrasitionService extends IntentService {
         stackBuilder.addNextIntent(notificationIntent);
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
         // Creating and sending Notification
         NotificationManager notificatioMng =
                 (NotificationManager) getSystemService( Context.NOTIFICATION_SERVICE );
-        notificatioMng.notify(
+        Objects.requireNonNull(notificatioMng).notify(
                 GEOFENCE_NOTIFICATION_ID,
                 createNotification(msg, notificationPendingIntent));
 

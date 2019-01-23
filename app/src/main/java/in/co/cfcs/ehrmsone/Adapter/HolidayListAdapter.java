@@ -63,7 +63,6 @@ public class HolidayListAdapter extends RecyclerView.Adapter<HolidayListAdapter.
             holidayDateTxt = (TextView) itemView.findViewById(R.id.holidaydate);
             holidayTypeTxt = (TextView) itemView.findViewById(R.id.holidaytype);
             descriptionTxt = (TextView) itemView.findViewById(R.id.description);
-
             mainLay = (LinearLayout) itemView.findViewById(R.id.leave_management_main_lay);
 
         }

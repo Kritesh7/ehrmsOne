@@ -79,6 +79,7 @@ public class AssestDetailsFragment extends Fragment {
     String LoginStatus;
     String invalid = "loginfailed";
     String msgstatus;
+    String strtext = "0";
 
     public AssestDetailsFragment() {
         // Required empty public constructor
@@ -117,8 +118,13 @@ public class AssestDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_assest_details, container, false);
 
-        String strtext = getArguments().getString("Count");
-        Log.e("checking count", strtext + " null");
+        if (getArguments() != null) {
+            strtext = getArguments().getString("Count");
+        }
+        if(strtext == null){
+
+            strtext ="0";
+        }
 
         mListener.onFragmentInteraction(strtext);
 
@@ -138,28 +144,10 @@ public class AssestDetailsFragment extends Fragment {
 
         assetsRecycler.getRecycledViewPool().setMaxRecycledViews(0, 0);
 
-        //prepareInsDetails();
 
         return rootView;
     }
 
-    /*private void prepareInsDetails() {
-
-        AssestDetailsModel model = new AssestDetailsModel("Laptop","Lenovo","03-09-2017","02-01-2017","For Meeting","Comment to Employ");
-        list.add(model);
-        model = new AssestDetailsModel("Laptop","Lenovo","03-09-2017","02-01-2017","For Meeting","Comment to Employ");
-        list.add(model);
-        model = new AssestDetailsModel("Laptop","Lenovo","03-09-2017","02-01-2017","For Meeting","Comment to Employ");
-        list.add(model);
-        model = new AssestDetailsModel("Laptop","Lenovo","03-09-2017","02-01-2017","For Meeting","Comment to Employ");
-        list.add(model);
-        model = new AssestDetailsModel("Laptop","Lenovo","03-09-2017","02-01-2017","For Meeting","Comment to Employ");
-        list.add(model);
-
-
-        adapter.notifyDataSetChanged();
-
-    }*/
 
     @Override
     public void onResume() {

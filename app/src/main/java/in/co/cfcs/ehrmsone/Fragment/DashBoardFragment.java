@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -63,6 +64,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import in.co.cfcs.ehrmsone.Main.AttendanceModule;
 import in.co.cfcs.ehrmsone.Main.LoginActivity;
@@ -109,30 +111,17 @@ public class DashBoardFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     public LinearLayout leaverequsLay, attendanceLay, stationaryLay, docsLay, cabLay, hotelLay, appreceationLay, warningLay,
-            req_approve, holiday, log_report, attendence_list,weeek_off;
+             holiday, log_report, attendence_list,weeek_off;
 
     public OnFragmentInteractionListenerForToolbar mListener;
 
     public ArrayList<LeaveSummarryModel> list;
 
-    PieChart pieChart, pieChart11;
-    ArrayList entries;
-    ArrayList PieEntryLabels;
-    PieDataSet pieDataSet;
-    PieData pieData;
-
+    PieChart pieChart;
     BarChart barchart;
-    BarData barData;
-    BarDataSet barDataSet;
     List<String> BarEntryLable;
-    List<BarEntry> entriesbar;
-
     Calendar calendar;
 
-
-    float barWidth;
-    float barSpace;
-    float groupSpace;
 
     public String leaveSummeryUrl = SettingConstant.BaseUrl + "AppEmployeeLeaveSummaryList";
     public String attendanceSummeryUrl = SettingConstant.BaseUrl + "AppEmployeeAttendanceChart";
@@ -159,6 +148,7 @@ public class DashBoardFragment extends Fragment {
     String invalid = "loginfailed";
     String msgstatus;
     String monthShowInPieChart;
+    String strtext ="0";
 
 
     public DashBoardFragment() {
@@ -193,14 +183,20 @@ public class DashBoardFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_dash_board, container, false);
 
 
-        String strtext = getArguments().getString("Count");
-        //    Log.e("checking count for dashboard fragment",strtext + " null");
+        if (getArguments() != null) {
+            strtext = getArguments().getString("Count");
+        }
+
+      if(strtext == null){
+
+            strtext ="0";
+      }
 
         //transfer data fragment to other Fragment
         Bundle bundle = new Bundle();
@@ -214,24 +210,23 @@ public class DashBoardFragment extends Fragment {
 
         mListener.onFragmentInteractionForToolbarMethod(0, "DashBoard", strtext);
 
-        leaverequsLay = (LinearLayout) rootView.findViewById(R.id.leavereq);
-        attendanceLay = (LinearLayout) rootView.findViewById(R.id.attendance_lay);
-        attendence_list = (LinearLayout) rootView.findViewById(R.id.attendence_list);
-        stationaryLay = (LinearLayout) rootView.findViewById(R.id.stationary_lay);
-        docsLay = (LinearLayout) rootView.findViewById(R.id.docs_lay);
-        cabLay = (LinearLayout) rootView.findViewById(R.id.cab_lay);
-        hotelLay = (LinearLayout) rootView.findViewById(R.id.hotel_lay);
-        appreceationLay = (LinearLayout) rootView.findViewById(R.id.appre_lay);
-        warningLay = (LinearLayout) rootView.findViewById(R.id.warning_lay);
-        // req_approve = (LinearLayout)rootView.findViewById(R.id.req_approve);
-        holiday = (LinearLayout) rootView.findViewById(R.id.holiday);
-        log_report = (LinearLayout) rootView.findViewById(R.id.log_report);
-        weeek_off = (LinearLayout) rootView.findViewById(R.id.weeek_off);
+        leaverequsLay =  rootView.findViewById(R.id.leavereq);
+        attendanceLay = rootView.findViewById(R.id.attendance_lay);
+        attendence_list =  rootView.findViewById(R.id.attendence_list);
+        stationaryLay =  rootView.findViewById(R.id.stationary_lay);
+        docsLay = rootView.findViewById(R.id.docs_lay);
+        cabLay = rootView.findViewById(R.id.cab_lay);
+        hotelLay = rootView.findViewById(R.id.hotel_lay);
+        appreceationLay = rootView.findViewById(R.id.appre_lay);
+        warningLay = rootView.findViewById(R.id.warning_lay);
+        holiday = rootView.findViewById(R.id.holiday);
+        log_report = rootView.findViewById(R.id.log_report);
+        weeek_off = rootView.findViewById(R.id.weeek_off);
 
         conn = new ConnectionDetector(getActivity());
 
         try {
-            currentVersion = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
+            currentVersion = Objects.requireNonNull(getActivity()).getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -239,13 +234,17 @@ public class DashBoardFragment extends Fragment {
         userId = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAdminId(getActivity())));
         authCode = UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAuthCode(getActivity())));
 
-
         if (conn.getConnectivityStatus() > 0) {
 
-            new ForceUpdateAsync(currentVersion).execute();
-            leaveSummeryData(authCode, userId);
+            if (authCode.compareTo("") != 0){
 
-            AttendanceSummaryData(authCode, userId, userId, month, year);
+                new ForceUpdateAsync(currentVersion,authCode).execute();
+                leaveSummeryData(authCode, userId);
+
+                AttendanceSummaryData(authCode, userId, userId, month, year);
+            }
+
+
 
         } else {
             conn.showNoInternetAlret();
@@ -277,11 +276,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
 
             }
         });
@@ -300,11 +301,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
 
             }
         });
@@ -323,11 +326,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
 
             }
         });
@@ -346,11 +351,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        // .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            // .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
 
             }
         });
@@ -369,11 +376,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
 
@@ -391,11 +400,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
 
@@ -414,11 +425,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        // .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            // .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
 
@@ -436,11 +449,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        // .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            // .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
 
@@ -458,11 +473,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        // .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            // .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
 
             }
         });
@@ -480,11 +497,13 @@ public class DashBoardFragment extends Fragment {
                         R.anim.push_right_in,
                         R.anim.push_left_out, R.anim.push_left_in, R.anim.push_right_out);*/
                 // update the main content by replacing fragments
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, frag)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, frag)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
 
@@ -840,9 +859,9 @@ public class DashBoardFragment extends Fragment {
     }
     public class DecimalRemover extends PercentFormatter {
 
-        protected DecimalFormat mFormat;
+        DecimalFormat mFormat;
 
-        public DecimalRemover(DecimalFormat format) {
+        DecimalRemover(DecimalFormat format) {
             this.mFormat = format;
         }
 
@@ -930,7 +949,7 @@ public class DashBoardFragment extends Fragment {
     }
     private void Logout() {
 
-        getActivity().finishAffinity();
+        Objects.requireNonNull(getActivity()).finishAffinity();
         startActivity(new Intent(getContext(), LoginActivity.class));
 
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setStatus(getContext(),
@@ -960,9 +979,11 @@ public class DashBoardFragment extends Fragment {
 //        private String latestVersion1="1.3";
         private String latestVersion;
         private String currentVersion;
+        private  String AuthCodeCheck;
 
-        public ForceUpdateAsync(String currentVersion) {
+        ForceUpdateAsync(String currentVersion, String authCode) {
             this.currentVersion = currentVersion;
+            this.AuthCodeCheck = authCode;
 
         }
 
@@ -970,7 +991,7 @@ public class DashBoardFragment extends Fragment {
         protected JSONObject doInBackground(String... params) {
 
             try {
-                latestVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=" + getActivity().getPackageName() + "&hl=en")
+                latestVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=" + Objects.requireNonNull(getActivity()).getPackageName() + "&hl=en")
                         .timeout(30000)
                         .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
                         .referrer("http://www.google.com")
@@ -989,17 +1010,21 @@ public class DashBoardFragment extends Fragment {
             if (latestVersion != null && !latestVersion.isEmpty()) {
                 if (Float.valueOf(currentVersion) < Float.valueOf(latestVersion)) {
                     //show dialog
-                    showForceUpdateDialog();
+
+                    if(AuthCodeCheck.compareTo("") != 0)
+                    {
+                        Objects.requireNonNull(getActivity()).runOnUiThread(this::showForceUpdateDialog);
+                    }
                 }
             }
             super.onPostExecute(jsonObject);
         }
 
-        public void showForceUpdateDialog() {
+        void showForceUpdateDialog() {
             android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
                     R.style.AppTheme));
 
-            alertDialogBuilder.setTitle(getActivity().getString(R.string.youAreNotUpdatedTitle));
+            alertDialogBuilder.setTitle(Objects.requireNonNull(getActivity()).getString(R.string.youAreNotUpdatedTitle));
             alertDialogBuilder.setMessage(getActivity().getString(R.string.youAreNotUpdatedMessage) + " " + latestVersion + getActivity().getString(R.string.youAreNotUpdatedMessage1));
             alertDialogBuilder.setCancelable(false);
             alertDialogBuilder.setPositiveButton(R.string.update1, new DialogInterface.OnClickListener() {

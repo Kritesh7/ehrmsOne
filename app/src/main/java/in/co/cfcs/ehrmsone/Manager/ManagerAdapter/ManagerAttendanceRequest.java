@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -61,8 +62,9 @@ public class ManagerAttendanceRequest extends RecyclerView.Adapter<ManagerAttend
         this.activity = activity;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.attendance_request_item_layout, parent, false);
@@ -70,7 +72,7 @@ public class ManagerAttendanceRequest extends RecyclerView.Adapter<ManagerAttend
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         ManagerAttendanceRequestModel model = list.get(position);
 

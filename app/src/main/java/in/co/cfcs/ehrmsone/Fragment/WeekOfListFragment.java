@@ -68,6 +68,7 @@ public class WeekOfListFragment extends Fragment {
     String LoginStatus;
     String invalid = "loginfailed";
     String msgstatus;
+    String strtext ="0";
 
     public WeekOfListFragment() {
         // Required empty public constructor
@@ -106,8 +107,14 @@ public class WeekOfListFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_week_of_list, container, false);
 
-        String strtext = getArguments().getString("Count");
-        Log.e("checking count", strtext + " null");
+        if (getArguments() != null) {
+            strtext = getArguments().getString("Count");
+        }
+
+        if(strtext == null){
+
+            strtext ="0";
+        }
 
         mListener.onFragmentInteraction(strtext);
 

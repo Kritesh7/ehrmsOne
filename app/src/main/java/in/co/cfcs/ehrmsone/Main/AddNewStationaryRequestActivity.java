@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -147,11 +146,7 @@ public class AddNewStationaryRequestActivity extends AppCompatActivity implement
             @Override
             public void onClick(View view) {
 
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
                 // Get Current Date
                 final Calendar c = Calendar.getInstance();
                 mYear = c.get(Calendar.YEAR);
@@ -195,11 +190,7 @@ public class AddNewStationaryRequestActivity extends AppCompatActivity implement
             @Override
             public void onClick(View view) {
 
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
                 // Get Current Date
                 final Calendar c = Calendar.getInstance();
                 mYear = c.get(Calendar.YEAR);
@@ -303,32 +294,6 @@ public class AddNewStationaryRequestActivity extends AppCompatActivity implement
                 }
 
                 Log.e("checking the inner list size", "Inner Log......" + innerlist.size());
-
-                //old function
-               /* //Making json format
-                String splitString  = String.valueOf(adapter.getSelectedString());
-                String id = String.valueOf(adapter.getSelectedId());
-                String quanty = String.valueOf(adapter.getSelectedQuan());
-                String remark = String.valueOf(adapter.getSelectedRemark());*/
-
-               /* //remove first and last character
-                String removeHip = splitString.substring(1, splitString.length() - 1);
-                String removeId = id.substring(1, id.length() - 1);
-                String removeQuant = quanty.substring(1, quanty.length() - 1);
-                String removeRemark = remark.substring(1, remark.length() - 1);
-*/
-             /*  // str.replaceAll("\[|\]", "");
-                String[] separated = removeHip.split(",");
-                String[] separatedId = removeId.split(",");
-                String[] separatedquant = removeQuant.split(",");
-                String[] separatedRemark = removeRemark.split(",");*/
-
-                //prevent save duplicate data in array list
-               /* Set<AddNewStationoryRequestModel> hs = new LinkedHashSet<AddNewStationoryRequestModel>(innerlist);
-                innerlist.clear();
-
-                Log.e("checking the clear list size is", innerlist.size() + "");
-                innerlist.addAll(hs);*/
 
 
                 //Make json

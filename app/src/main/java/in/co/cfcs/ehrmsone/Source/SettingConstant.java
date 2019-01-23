@@ -7,13 +7,13 @@ package in.co.cfcs.ehrmsone.Source;
 public class SettingConstant {
 
 
-
-
     //Server
     public static final String BASEURL_FOR_LOGIN = "http://nmthr.co.in/WEBAPI/LoginHRMSService.ASMX/";
     public static final String BaseUrl = "http://nmthr.co.in/WEBAPI/HRMSWebService.ASMX/";
     public static final String DownloadUrl = "http://nmthr.co.in/";
     public static final String BaseGeoUrl = "http://nmthr.co.in/WEBAPI/MapWebService.asmx/";
+
+
 
     public static final int Retry_Time = 15000;
     protected static final String SP_NAME = "myPref";

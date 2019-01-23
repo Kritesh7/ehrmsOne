@@ -73,7 +73,7 @@ public class TaxiListFragment extends Fragment {
     public FloatingActionButton fab;
     public String cabListUrl = SettingConstant.BaseUrl + "AppEmployeeTaxiBookingRequestList";
     public ConnectionDetector conn;
-    public String userId = "", authCode = "", strtext = "";
+    public String userId = "", authCode = "", strtext = "0";
     public TextView noCust;
 
 
@@ -121,13 +121,14 @@ public class TaxiListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_taxi_list, container, false);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            strtext = bundle.getString("Count");
-        } else {
+        if (getArguments() != null) {
             strtext = getArguments().getString("Count");
         }
-        Log.e("checking count", strtext + " null");
+
+        if(strtext == null){
+
+            strtext ="0";
+        }
 
         mListener.onFragmentInteraction(strtext);
 
@@ -222,7 +223,6 @@ public class TaxiListFragment extends Fragment {
                             String AppStatusText = jsonObject.getString("AppStatusText");
                             String BID = jsonObject.getString("BID");
                             String Visibility = jsonObject.getString("Visibility");
-                            // String AppStatus = jsonObject.getString("AppStatus");
 
 
                             list.add(new CabListModel(EmployeeName, ZoneName, CityName, requestDate, BookDateText

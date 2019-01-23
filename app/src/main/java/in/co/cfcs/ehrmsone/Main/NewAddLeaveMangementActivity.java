@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -135,9 +134,6 @@ public class NewAddLeaveMangementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(new View(NewAddLeaveMangementActivity.this).getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
 
                 Calendar cal = Calendar.getInstance();
 
@@ -171,9 +167,6 @@ public class NewAddLeaveMangementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(new View(NewAddLeaveMangementActivity.this).getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
 
                 Calendar cal = Calendar.getInstance();
 

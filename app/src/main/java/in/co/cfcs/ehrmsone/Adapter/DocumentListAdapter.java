@@ -197,7 +197,6 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
                         }
                     }
 
-
                     pDialog.dismiss();
 
                 } catch (JSONException e) {

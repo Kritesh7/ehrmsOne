@@ -31,7 +31,6 @@ import in.co.cfcs.ehrmsone.R;
 
 //import android.support.v7.app.NotificationCompat;
 
-
 public class NotificationBroadCast extends BroadcastReceiver {
 
     public String countUrl = SettingConstant.BaseUrl + "AppManagerRequestToApproveDashBoard";
@@ -146,12 +145,6 @@ public class NotificationBroadCast extends BroadcastReceiver {
         Notification notification;
 
 
-
-//            Intent intent=new Intent(context, ManagerRequestToApproveActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            contentIntent = PendingIntent.getActivity(context, 0,
-//                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         Intent intent= new Intent(context, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("data", message);
@@ -161,13 +154,12 @@ public class NotificationBroadCast extends BroadcastReceiver {
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-
-
         // To support 2.3 os, we use "Notification" class and 3.0+ os will use
         // "NotificationCompat.Builder" class.
         if (currentapiVersion < android.os.Build.VERSION_CODES.HONEYCOMB) {
             notification = new Notification(icon, message, 0);
             notification.flags = Notification.FLAG_AUTO_CANCEL;
+            assert notificationManager != null;
             notificationManager.notify(0, notification);
 
 
@@ -189,7 +181,7 @@ public class NotificationBroadCast extends BroadcastReceiver {
             notification.defaults |= Notification.DEFAULT_SOUND;
             notification.defaults |= Notification.DEFAULT_VIBRATE;
             notification.defaults |= Notification.DEFAULT_LIGHTS;
-
+            assert notificationManager != null;
             notificationManager.notify(0, builder.build());
 
         }

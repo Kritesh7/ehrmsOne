@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import in.co.cfcs.ehrmsone.Adapter.RequestedItemAdapter;
 import in.co.cfcs.ehrmsone.Model.AddNewStationoryRequestModel;
@@ -78,7 +79,7 @@ public class ViewRequestDetailsActivity extends AppCompatActivity {
 
         titleTxt = (TextView) toolbar.findViewById(R.id.titletxt);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,7 +90,6 @@ public class ViewRequestDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // onBackPressed();
                 onBackPressed();
-
             }
         });
 

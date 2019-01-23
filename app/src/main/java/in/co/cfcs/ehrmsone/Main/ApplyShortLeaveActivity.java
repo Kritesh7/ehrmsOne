@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -123,9 +122,6 @@ public class ApplyShortLeaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(new View(ApplyShortLeaveActivity.this).getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
 
                 Calendar cal = Calendar.getInstance();
 

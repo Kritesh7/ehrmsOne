@@ -1,6 +1,7 @@
 package in.co.cfcs.ehrmsone.Manager.ManagerAdapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,9 @@ public class ManagerTeamAverageReportAdapter extends RecyclerView.Adapter<Manage
         this.list = list;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.manager_team_average_item_layout, parent, false);
@@ -37,10 +39,9 @@ public class ManagerTeamAverageReportAdapter extends RecyclerView.Adapter<Manage
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         ManagerTeamAvearageModel model = list.get(position);
-
         holder.empNameTxt.setText(model.getEmpName());
         holder.empIdTxt.setText(model.getEmpId());
         holder.monthTxt.setText(model.getAvgMonth() + " " + model.getAvgYear());
@@ -68,7 +69,6 @@ public class ManagerTeamAverageReportAdapter extends RecyclerView.Adapter<Manage
             workingDaysTxt = (TextView)itemView.findViewById(R.id.mgrdays);
             workingHourTxt = (TextView)itemView.findViewById(R.id.mgrhour);
             aveargeTxt = (TextView)itemView.findViewById(R.id.mgravg);
-
         }
     }
 }

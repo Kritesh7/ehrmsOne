@@ -95,7 +95,6 @@ public class AttendanceListAdapter extends RecyclerView.Adapter<AttendanceListAd
             statusTxt = (TextView) itemView.findViewById(R.id.attendacelist_status);
             nameTxt = (TextView) itemView.findViewById(R.id.attendancelist_name);
 
-
             mainLay = (LinearLayout) itemView.findViewById(R.id.attendacelistlay);
 
 

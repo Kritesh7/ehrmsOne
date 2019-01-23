@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -64,8 +65,9 @@ public class ManagerRequestTraningAdapter extends RecyclerView.Adapter<ManagerRe
         this.statusId = statusId;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.manager_request_traning_layout, parent, false);
@@ -73,14 +75,12 @@ public class ManagerRequestTraningAdapter extends RecyclerView.Adapter<ManagerRe
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         ManagerRequestTraningModel model = list.get(position);
 
         authcode =  UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAuthCode(context)));
         userid =  UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.getAdminId(context)));
-
-
 
         holder.empNameTxt.setText(model.getEmpName());
         holder.doaminNameTxt.setText(model.getDomainName());
@@ -261,7 +261,6 @@ public class ManagerRequestTraningAdapter extends RecyclerView.Adapter<ManagerRe
                             Toast.makeText(context, MsgNotification, Toast.LENGTH_SHORT).show();
                         }
                     }
-
 
                     pDialog.dismiss();
 

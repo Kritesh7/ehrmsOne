@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +46,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import in.co.cfcs.ehrmsone.Adapter.AttendanceLogListAdapter;
 import in.co.cfcs.ehrmsone.Main.AttendanceModule;
@@ -95,6 +96,7 @@ public class AttendanceLogListFragment extends Fragment {
     String LoginStatus;
     String invalid = "loginfailed";
     String msgstatus;
+    String strtext ="0";
 
     public AttendanceLogListFragment() {
         // Required empty public constructor
@@ -128,13 +130,18 @@ public class AttendanceLogListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_attendance_log_list, container, false);
 
-        String strtext = getArguments().getString("Count");
-        Log.e("checking count", strtext + " null");
+        if (getArguments() != null) {
+            strtext = getArguments().getString("Count");
+        }
+        if(strtext == null){
+
+            strtext ="0";
+        }
 
         mListener.onFragmentInteraction(strtext);
 
@@ -163,10 +170,6 @@ public class AttendanceLogListFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
                 // Get Current Date
                 final Calendar c = Calendar.getInstance();
                 mYear = c.get(Calendar.YEAR);

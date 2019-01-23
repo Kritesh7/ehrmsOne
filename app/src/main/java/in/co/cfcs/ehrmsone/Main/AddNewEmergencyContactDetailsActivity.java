@@ -52,7 +52,7 @@ import in.co.cfcs.ehrmsone.Source.SettingConstant;
 import in.co.cfcs.ehrmsone.Source.SharedPrefs;
 import in.co.cfcs.ehrmsone.Source.UtilsMethods;
 
-public class AddNewEmergencyContactDetailsActivity extends AppCompatActivity {
+public class  AddNewEmergencyContactDetailsActivity extends AppCompatActivity {
 
     public TextView titleTxt;
     public RadioGroup emergencyGroup;

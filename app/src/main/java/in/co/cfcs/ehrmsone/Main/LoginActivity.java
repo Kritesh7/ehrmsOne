@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         mContext = LoginActivity.this;
         conn = new ConnectionDetector(LoginActivity.this);
 
-
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,9 +120,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
 
     }
 

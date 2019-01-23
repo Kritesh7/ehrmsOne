@@ -155,6 +155,7 @@ public class ManagerLeaveRequestApproveAndRejectAdapter extends RecyclerView.Ada
 
         LayoutInflater layoutInflater = (LayoutInflater)activity.getBaseContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
+        assert layoutInflater != null;
         final View popupView = layoutInflater.inflate(R.layout.popup_layout, null);
         Button cancel , backBtn;
         final EditText remarkTxt;

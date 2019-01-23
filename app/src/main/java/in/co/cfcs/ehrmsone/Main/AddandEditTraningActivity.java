@@ -149,4 +149,7 @@ public class AddandEditTraningActivity extends AppCompatActivity {
 
     }
 
+
 }
+
+

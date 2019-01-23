@@ -2,5 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">nmthr.co.in</domain>
+        <!--182.18.157.187-->
+        <!--<domain includeSubdomains="true">182.18.157.187</domain>-->
     </domain-config>
 </network-security-config>

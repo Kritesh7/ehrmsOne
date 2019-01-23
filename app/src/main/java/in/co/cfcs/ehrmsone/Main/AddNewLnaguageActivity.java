@@ -277,11 +277,10 @@ public class AddNewLnaguageActivity extends AppCompatActivity {
                     } else {
                         JSONArray languageObj = jsonObject.getJSONArray("LanguageMaster");
                         for (int i = 0; i < languageObj.length(); i++) {
-                            JSONObject object = languageObj.getJSONObject(i);
 
+                            JSONObject object = languageObj.getJSONObject(i);
                             String LanguageID = object.getString("LanguageID");
                             String LanguageName = object.getString("LanguageName");
-
                             langageList.add(new LangaugaeSpinnerModel(LanguageName, LanguageID));
 
                         }

@@ -75,7 +75,7 @@ public class HotelBookingListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     public ConnectionDetector conn;
-    public String userId = "", authCode = "", strtext = "";
+    public String userId = "", authCode = "", strtext = "0";
     public TextView noCust;
 
     String LoginStatus;
@@ -119,12 +119,20 @@ public class HotelBookingListFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_hotel_booking_list, container, false);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            strtext = bundle.getString("Count");
-        } else {
+        if (getArguments() != null) {
             strtext = getArguments().getString("Count");
         }
+
+        if(strtext == null){
+
+            strtext ="0";
+        }
+
+        //transfer data fragment to other Fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("Count", strtext);
+
+
         Log.e("checking count", strtext + " null");
 
         mListener.onFragmentInteraction(strtext);

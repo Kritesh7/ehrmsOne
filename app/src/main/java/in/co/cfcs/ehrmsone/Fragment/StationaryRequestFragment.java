@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -77,7 +78,7 @@ public class StationaryRequestFragment extends Fragment {
     public String userId = "", authCode = "";
     public ArrayList<BookMeaPrevisionModel> itemBindList = new ArrayList<>();
     public TextView noCust;
-    public String strtext = "";
+    public String strtext = "0";
 
     private OnFragmentInteractionListener mListener;
 
@@ -117,19 +118,20 @@ public class StationaryRequestFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_stationary_request, container, false);
 
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            strtext = bundle.getString("Count");
-        } else {
+        if (getArguments() != null) {
             strtext = getArguments().getString("Count");
         }
-        Log.e("checking count", strtext + " null");
+
+        if(strtext == null){
+
+            strtext ="0";
+        }
 
 
         mListener.onFragmentInteraction(strtext);

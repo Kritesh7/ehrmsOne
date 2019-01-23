@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -51,6 +50,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import in.co.cfcs.ehrmsone.Model.CabCityModel;
 import in.co.cfcs.ehrmsone.Model.StaticModel;
@@ -103,7 +103,7 @@ public class AddCabActivity extends AppCompatActivity {
         titleTxt = (TextView) toolbar.findViewById(R.id.titletxt);
 
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -180,11 +180,6 @@ public class AddCabActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
                 // Get Current Date
                 final Calendar c = Calendar.getInstance();
                 mYear = c.get(Calendar.YEAR);

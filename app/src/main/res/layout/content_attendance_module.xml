@@ -205,8 +205,6 @@
                         android:padding="5dp"
                         app:srcCompat="@drawable/ic_gps"/>
 
-
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -218,7 +216,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:checkedButton="@+id/rd_in">
+                        android:checkedButton="@+id/rd_in"
+                        android:visibility="gone">
                         <RadioButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

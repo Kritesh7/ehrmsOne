@@ -247,7 +247,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
             window.setStatusBarColor(this.getResources().getColor(R.color.status_color));
         }
 
-        mContext = this;
+        mContext = AttendanceModule.this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.attendancetollbar);
         setSupportActionBar(toolbar);
@@ -388,7 +388,6 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
                         } else {
                             gpsTracker.showSettingsAlert();
                         }
-                        // boolean isMock = MockLocationDetector.isLocationFromMockProvider(AttendanceModule.this, lastLocation);
                         boolean mockLocationAppsPresent = MockLocationDetector.checkForAllowMockLocationsApps(AttendanceModule.this);
                         boolean isAllowMockLocationsON = MockLocationDetector.isAllowMockLocationsOn(AttendanceModule.this);
                         boolean finalIsMock = isMock;
@@ -1039,7 +1038,7 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
     public void onResume() {
         super.onResume();
         try {
-            mContext = this;
+            mContext = AttendanceModule.this;
             mCamera = Camera.open(1);
             // Add to Framelayout
             mCameraView = new CameraView(this, mCamera);//create a SurfaceView to show camera data
@@ -1500,9 +1499,8 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
                                         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setAttendanceDate(AttendanceModule.this,
                                                 Attdatetime)));
-
-                                        TrackService();
-
+//                                    Disable Attendance tracking because In and out button not show to user
+//                                        TrackService();
 
                                     }
 
@@ -1515,7 +1513,8 @@ public class AttendanceModule extends AppCompatActivity implements GoogleApiClie
 
                                 if (conn.getConnectivityStatus() > 0) {
 
-                                    StopTrackService();
+//                                    Disable Attendance tracking because In and out button not show to user
+                                //    StopTrackService();
 
                                     rd_out.setVisibility(View.GONE);
                                     rd_in.setVisibility(View.VISIBLE);

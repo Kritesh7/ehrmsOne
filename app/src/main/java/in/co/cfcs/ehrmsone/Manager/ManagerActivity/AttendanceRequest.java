@@ -88,7 +88,6 @@ public class AttendanceRequest extends AppCompatActivity {
             public void onClick(View v) {
                 // onBackPressed();
                 onBackPressed();
-
             }
         });
 

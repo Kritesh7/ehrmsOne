@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -79,7 +80,7 @@ public class DocumentListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     public ArrayList<BookMeaPrevisionModel> itemBindList = new ArrayList<>();
     public TextView noCust;
-    public String strtext = "";
+    public String strtext = "0";
 
     String LoginStatus;
     String invalid = "loginfailed";
@@ -118,17 +119,25 @@ public class DocumentListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_document_list, container, false);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            strtext = bundle.getString("Count");
-        } else {
+        if (getArguments() != null) {
             strtext = getArguments().getString("Count");
         }
+
+        if(strtext == null){
+
+            strtext ="0";
+        }
+
+        //transfer data fragment to other Fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("Count", strtext);
+
+
         Log.e("checking count", strtext + " null");
         mListener.onFragmentInteraction(strtext);
 
@@ -176,28 +185,6 @@ public class DocumentListFragment extends Fragment {
         }
     }
 
-   /* private void prepareInsDetails() {
-
-        DocumentListModel model = new DocumentListModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-        model = new DocumentListModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-        model = new DocumentListModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-        model = new DocumentListModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-        model = new DocumentListModel("Raman Kumar","East","2","03-09-2017","02-01-2017","10-01-2017",
-                "Approved");
-        list.add(model);
-
-
-        adapter.notifyDataSetChanged();
-
-    }*/
 
     //Document List Data
     public void documentListData(final String AuthCode, final String AdminID, final String AppStatus, final String ItemCatID) {
@@ -394,12 +381,6 @@ public class DocumentListFragment extends Fragment {
                 "")));
         UtilsMethods.getBlankIfStringNull(String.valueOf(SharedPrefs.setCompanyLogo(getActivity(),
                 "")));
-
-
-//
-//        Intent intent = new Intent(getContext(), LoginActivity.class);
-//        startActivity(intent);
-
 
     }
 

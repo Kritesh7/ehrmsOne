@@ -31,8 +31,6 @@ public class GetLoctionAddress {
       //  https://maps.googleapis.com/maps/api/geocode/json?key=AbCdEfGhIjKlMnOpQrStUvWxYz&latlng=%1$f,%2$f&address=Dallas&sensor=true&language=
 
 
-
-
         HttpGet httpGet = new HttpGet(address);
         HttpClient client = new DefaultHttpClient();
         HttpResponse response;

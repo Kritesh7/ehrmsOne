@@ -8,7 +8,7 @@ import android.widget.ListView;
  * Created by Admin on 12-10-2017.
  */
 
-public class MyListLayout  extends ListView {
+public class   MyListLayout  extends ListView {
 
     boolean expanded = true;
 
@@ -31,10 +31,8 @@ public class MyListLayout  extends ListView {
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // HACK! TAKE THAT ANDROID!
         if (isExpanded()) {
-            // Calculate entire height by providing a very large height hint.
-            // View.MEASURED_SIZE_MASK represents the largest height possible.
+
             int expandSpec = MeasureSpec.makeMeasureSpec(MEASURED_SIZE_MASK,
                     MeasureSpec.AT_MOST);
             super.onMeasure(widthMeasureSpec, expandSpec);
